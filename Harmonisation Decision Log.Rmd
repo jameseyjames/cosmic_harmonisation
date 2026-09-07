@@ -1,0 +1,432 @@
+---
+title: "COSMIC Harmonisation to HRS-HCAP"
+subtitle: "Methodological Decision Log"
+author: "James Lian"
+date: "2026-09-03"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    theme: flatly
+    highlight: tango
+    df_print: kable
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Overview
+
+This document records the methodological decision-making process for the COSMIC harmonisation project at UNSW. The project aims to harmonise cognitive assessment data from participating COSMIC cohorts to the cognitive domains used in the Harmonized Cognitive Assessment Protocol (HCAP), with **HRS-HCAP** serving as the primary reference framework.
+
+This document is a **living record** of the harmonisation process. It will be updated as decisions are made regarding cohort inclusion, cognitive-domain classification, linking measures, statistical harmonisation, and the construction of domain and global cognitive scores.
+
+Project files and code are available at:
+<https://github.com/jameseyjames/cosmic_harmonisation/tree/main>
+
+---
+
+# Overall Harmonisation Strategy
+
+The harmonisation process consists of five broad stages:
+
+1. **Identify participating COSMIC cohorts** — determine which COSMIC member studies will participate and obtain an inventory of cognitive measures available within each cohort.
+2. **Map cognitive measures to HCAP domains** — conduct a modified Delphi study in which experts classify COSMIC cognitive measures against the HCAP cognitive domains.
+3. **Determine domain coverage within each cohort** — combine the Delphi classifications with the measure inventory to determine which HCAP domains can be adequately represented in each cohort.
+4. **Construct harmonised domain scores** — for cohorts with sufficient indicators, evaluate the measurement structure and construct harmonised domain-specific scores.
+5. **Construct harmonised global cognition scores** — for cohorts meeting prespecified criteria, combine domain-level information into a global cognitive score.
+
+**Conceptual workflow:**
+
+> Cohort participation → Measure inventory → Delphi domain mapping → Domain coverage → Statistical harmonisation → Domain scores → Global cognition
+
+---
+
+# HRS-HCAP Protocol
+
+The initial harmonisation framework considers five broad HCAP cognitive domains:
+
+| # | Domain |
+|:-:|:-------|
+| 1 | Orientation |
+| 2 | Memory |
+| 3 | Executive function |
+| 4 | Language / fluency |
+| 5 | Visuospatial function |
+
+**Key principle:** cognitive tests are rarely "pure" measures of a single construct — a test may assess several domains to different degrees. Accordingly, the Delphi process does **not** force experts to classify each measure into a single domain upfront. Instead, experts first rate the extent to which a measure assesses *each* HCAP domain, and only then nominate the measure's **primary domain**.
+
+---
+
+# Modified Delphi {.tabset}
+
+## Purpose
+
+Gross et al. previously incorporated expert judgement during pre-statistical cognitive harmonisation; however, expert classifications are necessarily partly subjective. This project formalises that judgement stage using a modified Delphi process with two conceptually distinct objectives:
+
+1. **Domain classification** — which HCAP construct(s) does each COSMIC cognitive measure assess?
+2. **Linking suitability** — are apparently similar measures across COSMIC cohorts and HCAP sufficiently comparable in administration, stimulus content, response requirements, and scoring to serve as plausible linking indicators?
+
+These judgements **inform**, rather than determine, the statistical harmonisation model. Expert consensus generates **linking hypotheses**, which are subsequently evaluated empirically using methods such as confirmatory factor analysis (CFA), differential item functioning (DIF), and/or measurement-invariance analysis.
+
+Two questions are treated as conceptually separate throughout this project:
+
+> **Does this test measure the cognitive domain?**
+
+> **Is this test sufficiently comparable across studies to function as a linking indicator?**
+
+A measure may contribute useful information about a domain even if it is not sufficiently equivalent across studies to serve as a linking measure.
+
+## Panel
+
+The panel includes experts with experience in COSMIC, HCAP, cognitive ageing, neuropsychological assessment, epidemiology, and cross-study cognitive harmonisation.
+
+**COSMIC**
+
+| Name | Affiliation | Email |
+|:---|:---|:---|
+| Nicole Kochan | Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney | n.kochan@unsw.edu.au |
+| Adam Bentvelzen | Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney | a.bentvelzen@unsw.edu.au |
+| Darren Lipnicki | Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney | d.lipnicki@unsw.edu.au |
+| Xiaoxi Ma | Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney | Not publicly identified |
+| John D. Crawford | Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney | john.crawford@unsw.edu.au |
+
+**HCAP**
+
+| Name | Affiliation | Email |
+|:---|:---|:---|
+| Alden Gross | Johns Hopkins Bloomberg School of Public Health | agross14@jhu.edu |
+| Miguel Rentería | QIMR Berghofer Medical Research Institute | miguel.renteria@qimrberghofer.edu.au |
+| Emily Briceño | University of Michigan | emilande@med.umich.edu |
+| Lindsay Kobayashi | University of Michigan School of Public Health | lkob@umich.edu |
+
+**COSMIC Member Studies**
+
+| Name | Study / Affiliation | Email |
+|:---|:---|:---|
+| Ding Ding | Shanghai Ageing Study / Fudan University Huashan Hospital | dingding@huashan.org.cn |
+| Dan Mungas | SALSA / UC Davis | dmmungas@ucdavis.edu |
+| Mary Kosmidis | HELIAD / Aristotle University of Thessaloniki | kosmidis@psy.auth.gr |
+| Joanne Feeney | TILDA / Trinity College Dublin | feeneyjo@tcd.ie |
+| Dorina Cadar | ELSA / UCL & Brighton and Sussex Medical School | d.cadar@ucl.ac.uk |
+
+## Panel Characteristics
+
+The Delphi survey collects background information on panel members' expertise and experience.
+
+| Field | Response options |
+|:------|:------------------|
+| Primary area of expertise | Neuropsychology · Cognitive ageing · Epidemiology · Neurology · Other |
+| Years working with cognitive assessment | <5 · 5–10 · 11–20 · 20+ |
+| Experience with harmonisation frameworks | HRS-HCAP / other HCAP study · COSMIC · Cross-study harmonisation · Other |
+| Geographic & linguistic experience | Free text: countries, regions, and languages of experience administering, developing, or interpreting cognitive assessments |
+
+Geographic and linguistic information will help assess whether the panel includes sufficient expertise across the cultural and linguistic settings represented by the participating COSMIC cohorts.
+
+## Round 1 Questionnaire
+
+Round 1 asks experts to rate every cognitive measure against all five HCAP domains before nominating a primary domain. This avoids forcing experts to treat cognitive tests as measuring only one construct.
+
+> ### 📋 Round 1 — Survey Item
+>
+> **Measure:** Trail Making Test, Part B
+>
+> **1. Domain ratings**
+> *To what extent does this measure assess each HCAP domain?*
+>
+> | HCAP domain | 1 — Not assessed | 2 — Minor | 3 — Moderate | 4 — Strong | 5 — Core |
+> |:---|:-:|:-:|:-:|:-:|:-:|
+> | Memory | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Executive function | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Language / fluency | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Orientation | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Visuospatial function | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+>
+> **2. Primary domain**
+> *Which HCAP cognitive domain would you consider the primary domain assessed by this measure?*
+>
+> `( )` Memory &nbsp;&nbsp; `( )` Executive function &nbsp;&nbsp; `( )` Language/fluency &nbsp;&nbsp; `( )` Orientation &nbsp;&nbsp; `( )` Visuospatial function
+>
+> **3. Confidence in primary classification**
+>
+> `( )` Low &nbsp;&nbsp; `( )` Moderate &nbsp;&nbsp; `( )` High
+>
+> **4. Comments and supporting evidence** *(optional)*
+>
+> - Reasoning for classification
+> - Relevant references
+> - Concerns about cultural, linguistic, or cohort-specific interpretation
+> - Suggested secondary domains
+>
+> *[free-text response box]*
+
+**Rating scale anchors** (to be finalised before implementation):
+
+| Score | Anchor |
+|:-:|:---|
+| 1 | Does not meaningfully assess this domain |
+| 2 | Minor contribution |
+| 3 | Moderate contribution |
+| 4 | Strong contribution |
+| 5 | Core cognitive domain assessed by the measure |
+
+This sequence — domain ratings → primary domain → confidence → comments — is repeated for every cognitive measure in the inventory.
+
+## Round 2 Questionnaire
+
+In Round 2, experts receive an anonymised summary of Round 1 responses for each measure and are asked to reconsider their classification in light of the panel's distribution of views. The goal is **not** to force agreement, but to give experts the opportunity to revise their judgement with fuller information.
+
+> ### 📋 Round 2 — Survey Item
+>
+> **Measure:** Trail Making Test, Part B
+>
+> **Panel summary from Round 1**
+>
+> | Primary domain nominated | % of panel |
+> |:---|:-:|
+> | Executive function | 82% |
+> | Visuospatial function | 12% |
+> | Other | 6% |
+>
+> Median executive-function rating: **5** (IQR 4–5)
+>
+> **Your Round 1 classification:** Executive function
+>
+> ---
+>
+> **1. Revised domain ratings** *(optional — update if your view has changed)*
+>
+> | HCAP domain | 1 | 2 | 3 | 4 | 5 |
+> |:---|:-:|:-:|:-:|:-:|:-:|
+> | Memory | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Executive function | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Language / fluency | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Orientation | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+> | Visuospatial function | ⬚ | ⬚ | ⬚ | ⬚ | ⬚ |
+>
+> **2. Revised primary domain**
+>
+> `( )` Keep original classification (Executive function) &nbsp;&nbsp; `( )` Change to: ________
+>
+> **3. Revised confidence**
+>
+> `( )` Low &nbsp;&nbsp; `( )` Moderate &nbsp;&nbsp; `( )` High
+>
+> **4. Reason for any change** *(optional)*
+>
+> *[free-text response box]*
+
+Additional Delphi rounds may be conducted for measures that remain unresolved after Round 2.
+
+## Consensus Criteria
+
+> **Provisional criterion:** Consensus = at least **75%** of experts selecting the same primary HCAP domain.
+
+This threshold will be prespecified before Delphi responses are analysed.
+
+Measures that fail to reach consensus will **not** be automatically excluded. They may instead be:
+
+- Re-rated in a subsequent Delphi round
+- Classified as genuinely multidomain
+- Flagged for sensitivity analysis
+- Reviewed qualitatively using expert comments and supporting literature
+
+Agreement on the primary domain should be considered alongside the distribution of the 1–5 domain ratings and expert confidence, not in isolation.
+
+## Proposed Output
+
+The final domain-mapping dataset may take the following form *(values below are illustrative only)*:
+
+| COSMIC measure | Primary HCAP domain | Secondary domain | Consensus | Confidence |
+|:---|:---|:---|:-:|:-:|
+| CERAD delayed recall | Memory | — | 96% | High |
+| RAVLT delayed recall | Memory | — | 94% | High |
+| Trails B | Executive function | Visuospatial | 86% | High |
+| Digit Symbol | Executive function | — | 78% | Moderate |
+
+---
+
+# Assessment of Linking Suitability {.tabset}
+
+## Criteria
+
+Domain classification alone does not establish that two measures can be treated as equivalent indicators across cohorts. For measures that appear conceptually similar across HCAP and COSMIC cohorts, a separate assessment examines whether they are sufficiently comparable to serve as candidate linking indicators, considering:
+
+| | | |
+|:---|:---|:---|
+| Test instructions | Stimulus material | Number of items or trials |
+| Timing | Immediate vs. delayed assessment | Recall vs. recognition |
+| Scoring range | Error rules | Language / translation |
+| Mode of administration | Cohort-specific adaptations | |
+
+Candidate measures are then classified by expected linking suitability:
+
+| Classification | Meaning |
+|:---|:---|
+| **High-confidence linking indicator** | Strong expectation of cross-study comparability |
+| **Tentative linking indicator** | Plausible, but with notable administration/scoring differences |
+| **Not suitable as a linking indicator** | Domain-relevant, but not comparable enough to link across studies |
+
+This classification is an **expert hypothesis** that requires empirical testing.
+
+## Measure-Level Table
+
+A working harmonisation table could take the following form *(illustrative only; final structure depends on Delphi results and available administration detail)*:
+
+| Measure | HCAP domain | Secondary domain | Primary? | Suitable linking indicator? | Confidence | Consensus |
+|:---|:---|:---|:-:|:-:|:-:|:-:|
+| RAVLT immediate recall | Memory | Immediate episodic memory | Yes | Yes | High | 94% |
+| Trail Making A | Executive function | Processing speed | Yes | Yes | High | 91% |
+| Letter fluency | Language/fluency | Verbal fluency | Yes | Yes | Moderate | 78% |
+
+---
+
+# Statistical Harmonisation {.tabset}
+
+## Cohort Inventory
+
+Before statistical harmonisation, an inventory describing the cognitive measures available in each participating cohort will be compiled. Illustrative example:
+
+| Cohort | Cognitive tests available |
+|:---|:---|
+| Cohort A | CERAD word-list recall, Animal Fluency, Trails A/B, MMSE |
+| Cohort B | Rey Auditory Verbal Learning Test, Animal Fluency, Digit Symbol, MMSE |
+| Cohort C | Hopkins Verbal Learning Test, Category Fluency, Stroop, Boston Naming |
+
+This inventory will be combined with the Delphi classifications to determine cognitive-domain coverage.
+
+## Domain Coverage
+
+Once each measure is mapped to the HCAP framework, available indicators within each cohort will be summarised by domain. Illustrative example:
+
+| Cohort | Domains with adequate indicators |
+|:---|:---|
+| Cohort A | Memory, Executive function, Language/fluency |
+| Cohort B | Memory, Executive function, Language/fluency |
+| Cohort C | Memory, Executive function, Language/fluency |
+
+A formal definition of **adequate domain coverage** still needs to be developed, considering:
+
+- Number of indicators available for the domain
+- Strength of expert classification
+- Reliability of individual measures
+- Whether indicators represent sufficiently broad coverage of the construct
+- Availability of candidate linking indicators
+- Statistical identification requirements
+
+These minimum criteria should ideally be established before constructing the final harmonised scores.
+
+## Statistical Methods
+
+The Delphi process provides the **conceptual measurement model**; the next stage evaluates whether that model is empirically supported. Potential analyses include:
+
+1. Confirmatory factor analysis to evaluate whether measures load on the proposed HCAP domains
+2. Evaluation of factor loadings and model fit within individual cohorts
+3. Testing candidate linking indicators across cohorts
+4. Assessment of differential item functioning and/or measurement invariance
+5. Identification of measures that behave differently across cohorts, countries, languages, or assessment protocols
+6. Refinement of the harmonisation model where expert expectations are not supported empirically
+
+> **Expert consensus determines what is theoretically plausible; statistical analyses determine what is empirically defensible.**
+
+Disagreement between the Delphi classifications and empirical results will be documented rather than automatically resolved in favour of either source of evidence.
+
+## Domain Scores
+
+For each cohort, harmonised scores will be generated for HCAP domains that satisfy the final measurement and statistical criteria. The precise scoring approach remains to be determined and will depend on the structure of the available data and the performance of the harmonisation model.
+
+Potential outputs include harmonised scores for:
+
+- Memory
+- Executive function
+- Language/fluency
+- Orientation
+- Visuospatial function
+
+Not every cohort is expected to contribute data to every domain.
+
+## Global Cognition
+
+A harmonised global cognitive score will only be constructed for cohorts satisfying prespecified minimum criteria, which may include:
+
+- Minimum number of HCAP domains represented
+- Adequate measurement of each contributing domain
+- Sufficient linking information
+- Acceptable statistical model fit
+- Evidence that scores are sufficiently comparable across cohorts
+
+The global cognition score is a **downstream product** of successful domain-level harmonisation, not the starting point of the harmonisation process.
+
+## Key Principles
+
+1. **Separate conceptual harmonisation from statistical harmonisation.** Expert judgement defines plausible mappings; empirical analyses test those mappings.
+2. **Do not assume cognitive tests measure only one construct.** Experts rate all relevant domains before nominating a primary domain.
+3. **Separate domain membership from linking suitability.** A measure can validly assess a cognitive domain without being sufficiently comparable across cohorts to function as a linking indicator.
+4. **Document uncertainty rather than hiding it.** Consensus, confidence, secondary-domain ratings, and unresolved classifications should all be retained.
+5. **Do not assume similarly named tests are equivalent.** Administration and scoring procedures must be examined before measures are treated as linking indicators.
+6. **Allow empirical evidence to challenge expert expectations.** CFA, DIF, and measurement-invariance analyses test the measurement structure proposed through the Delphi process.
+7. **Avoid requiring every cohort to contain every HCAP domain.** Domain scores can be generated for the subset of domains adequately represented within each cohort.
+
+---
+
+# Next Steps {.tabset}
+
+## Immediate Next Steps
+
+1. Confirm which COSMIC cohorts will participate
+2. Compile a complete inventory of cognitive measures for participating cohorts
+3. Obtain detailed information about test administration and scoring
+4. Finalise HCAP domain definitions
+5. Finalise the Delphi panel and survey
+6. Conduct Round 1 of the Delphi
+7. Summarise responses and conduct Round 2 where required
+8. Construct the cohort-by-domain mapping matrix
+9. Identify candidate linking measures
+10. Develop and test the statistical harmonisation model
+
+## Outstanding Decisions
+
+- [ ] Confirm participating COSMIC cohorts
+- [ ] Obtain detailed cognitive-test inventories and administration protocols
+- [ ] Finalise the HCAP domain definitions used in the Delphi
+- [ ] Decide whether subdomains should be formally classified
+- [ ] Finalise the Delphi panel
+- [ ] Finalise the 1–5 domain-rating anchors
+- [ ] Prespecify the Delphi consensus criterion
+- [ ] Determine how missing Delphi responses will be handled
+- [ ] Determine whether consensus should incorporate confidence ratings
+- [ ] Define criteria for candidate linking indicators
+- [ ] Define "adequate" cognitive-domain coverage
+- [ ] Select the statistical harmonisation model
+- [ ] Prespecify criteria for DIF / measurement-invariance decisions
+- [ ] Define minimum criteria for construction of global cognition
+- [ ] Determine how harmonised scores will be placed onto an interpretable common scale
+
+# Decision Log
+
+Major methodological decisions are recorded below in chronological order as the project develops. Dates for not-yet-made decisions are placeholders and should be updated once each decision is confirmed.
+
+| Date | Decision | Rationale | Status |
+|:---|:---|:---|:-:|
+| 07 Sep 2026 | Adopt the five HCAP cognitive domains as the harmonisation framework | Provides a common target for mapping cognitive measures across COSMIC cohorts | Proposed |
+| 07 Sep 2026 | Use a modified Delphi process to classify cognitive measures | Formalises and documents expert judgement prior to statistical harmonisation | Proposed |
+| 14 Sep 2026 | Separate domain classification from linking suitability | A measure may validly assess a construct without being comparable enough to link across cohorts | Proposed |
+| 14 Sep 2026 | Use ≥75% agreement as the initial Delphi consensus threshold | Provides a prespecified criterion for identifying agreement on primary-domain classification | Provisional |
+| 21 Sep 2026 | Confirm the final list of participating COSMIC cohorts | Required before compiling the cognitive-measure inventory | Planned |
+| 28 Sep 2026 | Finalise the 1–5 domain-rating anchors and Delphi survey wording | Ensures consistent interpretation of ratings across panel members | Planned |
+| 05 Oct 2026 | Finalise the Delphi panel membership and survey platform | Panel composition must be locked before Round 1 launch | Planned |
+| 12 Oct 2026 | Launch Delphi Round 1 | Begins expert domain classification of the cognitive measure inventory | Planned |
+| 17 Oct 2026 | Define minimum criteria for "adequate" cognitive-domain coverage | Needed to determine which HCAP domains each cohort can support | Planned |
+
+*Add new rows to the bottom of this table as decisions are made, keeping dates in chronological order.*
