@@ -2,7 +2,7 @@
 title: "COSMIC Harmonisation to HRS-HCAP"
 subtitle: "Methodological Decision Log"
 author: "James Lian"
-date: "2026-09-03"
+date: "2026-09-03 (updated 2026-11-03)"
 output:
   html_document:
     toc: true
@@ -34,6 +34,8 @@ This document is a **living record** of the harmonisation process. It will be up
 
 Project files and code are available at:
 <https://github.com/jameseyjames/cosmic_harmonisation/tree/main>
+
+> **Update, 3 Nov 2026:** the strategy has been revised since the sections below were first drafted. The expert-panel Delphi described below is under review and may be replaced by custodian-led mapping (see [Strategy Revision](#strategy-revision-oct-nov-2026)). The Delphi sections are retained as the earlier design.
 
 ---
 
@@ -380,9 +382,69 @@ The global cognition score is a **downstream product** of successful domain-leve
 
 ---
 
+# Strategy Revision (Oct-Nov 2026) {#strategy-revision-oct-nov-2026 .tabset}
+
+## Summary of what changed
+
+| Stage | Plan | Reason for change |
+|:---|:---|:---|
+| Original (Sep 2026) | All COSMIC cohorts; expert Delphi to classify measures; HCAP-style linking and co-calibration | Formalise expert judgement before statistical harmonisation |
+| After discussion with Alden Gross (HCAP), Oct 2026 | Start with a proof-of-concept pilot in Western, English-speaking cohorts | Reduce language and cultural confounding; faster to publish and support grant applications |
+| After meeting with Karen Blackmon, late Oct / early Nov 2026 | Consider a domain-level, norm-based categorical approach as a complement | Needs domain mapping rather than linking items; designed for LMIC contexts |
+| After meeting with Susanne Roehr, 3 Nov 2026 | **Custodian-led mapping** of cognitive measures to HCAP domains across all contributing cohorts; no longer restricted to WEIRD cohorts | Honours regional context and local expertise; defensible on equity grounds; HCAP is too granular for retrospective cohorts |
+
+*Meeting dates for the Alden and Blackmon discussions are approximate; update when confirmed.*
+
+## Custodian-led mapping (current direction)
+
+- Give each cohort's PI/data custodian the HCAP domain structure and ask where they would map each of their cognitive tests.
+- Rationale: custodians are the experts on their own data and study design. Example: animal naming may best be treated as language processing in bilingual cohorts.
+- Use a tailored questionnaire per cohort, generated with AI assistance from the cohort's data dictionary, so that custodians confirm or correct a pre-filled draft instead of starting from scratch.
+- The response form should have clear instructions and a confidence rating (or ranking) for each mapping.
+- Set a deadline. Contact all cohorts and see who responds first (likely early responders include LEILA75+ and Ding Ding's cohort).
+- Round 2: a sanity check of the custodian mappings by CHeBA neuropsychologists or a diverse expert panel. Agreement between custodians and reviewers can be reported.
+- Incentives: co-authorship, increased visibility of cohort data, and involvement in future COSMIC projects.
+- Known risk: reliance on cohort owners creates a bottleneck. Mitigations: short pre-filled forms, deadlines, and direct PI contact by the project team (not only via Darren Lipnicki and Renecia Lowe).
+- Known risk: mapping alone does not harmonise scores. A downstream method still has to be chosen (see below).
+
+## Approaches considered
+
+| Approach | Needs | Output | Role in project |
+|:---|:---|:---|:---|
+| HCAP-style item linking and co-calibration | Confidently equivalent linking items (curation schema, linking confidence) | Continuous comparable scores | Possible for cohorts with strong item overlap; HCAP is extremely granular and not exactly the target |
+| International Brain Health Index (IBHI; Karen Blackmon), Alkire-Foster counting method | Domain mapping and a normative reference group per cohort | Categorical burden, severity and profile meta-metrics | Under consideration; allows flexibility in which tests represent which domain. The preprint is not yet peer reviewed and is not reproduced in this repository |
+| Custodian-led domain mapping | Data dictionaries and custodian expertise | Domain-to-test map with confidence | **Current first step**; feeds either of the approaches above |
+
+General points from the Blackmon discussion that inform our design: education and culture effects are large, so animal naming plus word recall is inadequate in LMIC contexts; norms should be regression-based from a reference group rather than the sample distribution; verbal fluency may stand in for executive function when data are limited; the data themselves may show what is pragmatic, instead of beginning with a Delphi.
+
+## Curation schema
+
+- Item-level curation uses a draft schema adapted from the HCAP Prestatistical Harmonization Resource (v0.1c): the HCAP item columns plus COSMIC additions (cohort wave, link status, expert review needed, verified against source, decision note). See `data/cognitive_measure_inventory/Curation schema draft.xlsx`.
+- Linking confidence follows HCAP: 2 = confident, 1 = tentative, -1 = not in HRS-HCAP.
+- Example items come from the MYHAT data dictionary. MAS, PATH and EAS rows are unverified placeholders until their dictionaries are obtained.
+
+## Cohort selection and data access
+
+- Original pilot shortlist: MAS, PATH, EAS and MYHAT (English-speaking, strong cognitive batteries). CSHA (French) and WHICAP (Spanish) were excluded as multilingual. CFAS and TILDA main waves are thought to be screening-level (to verify at item level); NICOLA ran an HCAP substudy, so it is not screening-only.
+- The custodian-led approach needs data dictionaries, not data, so it reduces dependence on data-access approvals.
+- Cohort and data-request tracking is maintained in `cohort_tracking/Cohort review.xlsx`. Current access issues: MAS and PATH need committee approval; EAS updated data delayed but coming soon; TILDA access via ISSDA or ICPSR; NICOLA data may be downloadable from the HCAP repository (Susanne to contact Carol Brayne); CFAS stalled; SLASII held but language of assessment is not a variable.
+
 # Next Steps {.tabset}
 
 ## Immediate Next Steps
+
+*Revised 3 Nov 2026 for the custodian-led approach:*
+
+1. Present the revised plan to Darren Lipnicki and agree it
+2. Contact project PIs directly to introduce the plan and the questionnaire
+3. Draft the custodian questionnaire and response form (domains, definitions, examples, confidence rating, language and administration notes) and a tailored version for each cohort, using AI with the data dictionaries
+4. Seek advice on AI tooling from Susanne's computer science contacts; bring Xiaoxi Ma back onto the project
+5. Pilot the questionnaire on one or two cohorts (MYHAT first, since the dictionary is in hand)
+6. Plan Round 2 review by neuropsychologists or a diverse expert panel
+7. Follow up PREHCO, TILDA (ISSDA/ICPSR), NICOLA (HCAP repository) and the EAS update
+8. Choose the downstream harmonisation method once mappings are available
+
+*Earlier list (Sep 2026), retained for reference:*
 
 1. Confirm which COSMIC cohorts will participate
 2. Compile a complete inventory of cognitive measures for participating cohorts
@@ -397,6 +459,14 @@ The global cognition score is a **downstream product** of successful domain-leve
 
 ## Outstanding Decisions
 
+- [ ] Agree the custodian-led mapping plan with Darren Lipnicki
+- [ ] Decide whether the Delphi is replaced by, or follows, custodian mapping
+- [ ] Design the custodian response form and confidence scale
+- [ ] Decide how disagreements between custodians and reviewers are resolved
+- [ ] Choose the downstream method after mapping (co-calibration where items overlap, IBHI-style norm-based categories, or both)
+- [ ] Decide how normative reference groups would be defined retrospectively
+- [ ] Decide the level of domain granularity (HCAP subdomains or the five broad domains)
+- [ ] Confirm the third expert reviewer
 - [ ] Confirm participating COSMIC cohorts
 - [ ] Obtain detailed cognitive-test inventories and administration protocols
 - [ ] Finalise the HCAP domain definitions used in the Delphi
@@ -415,7 +485,7 @@ The global cognition score is a **downstream product** of successful domain-leve
 
 # Decision Log
 
-Major methodological decisions are recorded below in chronological order as the project develops. Dates for not-yet-made decisions are placeholders and should be updated once each decision is confirmed.
+Major methodological decisions are recorded below in chronological order as the project develops. Dates for not-yet-made decisions are placeholders and should be updated once each decision is confirmed. Rows dated October 2026 or later reflect meetings and decisions recorded after the initial draft; some dates are approximate.
 
 | Date | Decision | Rationale | Status |
 |:---|:---|:---|:-:|
@@ -426,7 +496,15 @@ Major methodological decisions are recorded below in chronological order as the 
 | 21 Sep 2026 | Confirm the final list of participating COSMIC cohorts | Required before compiling the cognitive-measure inventory | Planned |
 | 28 Sep 2026 | Finalise the 1–5 domain-rating anchors and Delphi survey wording | Ensures consistent interpretation of ratings across panel members | Planned |
 | 05 Oct 2026 | Finalise the Delphi panel membership and survey platform | Panel composition must be locked before Round 1 launch | Planned |
-| 12 Oct 2026 | Launch Delphi Round 1 | Begins expert domain classification of the cognitive measure inventory | Planned |
+| 12 Oct 2026 | Launch Delphi Round 1 | Begins expert domain classification of the cognitive measure inventory | On hold (under review, 3 Nov) |
 | 17 Oct 2026 | Define minimum criteria for "adequate" cognitive-domain coverage | Needed to determine which HCAP domains each cohort can support | Planned |
+| Late Oct 2026 | Revise the plan to a pilot in English-speaking cohorts (MAS, PATH, EAS, MYHAT) after consulting HCAP | Reduce language and cultural confounding; faster proof of concept | Superseded 3 Nov |
+| Late Oct 2026 | Exclude multilingual cohorts (CSHA, WHICAP) from the pilot | Language of administration confounds the pilot | Superseded 3 Nov |
+| Oct 2026 | Adopt an HCAP-aligned item curation schema | Reuses an established structure and linking-confidence codes | Draft |
+| 3 Nov 2026 | Move from expert Delphi to custodian-led mapping of measures to HCAP domains | Custodians know their data; respects regional context; defensible on equity grounds | Adopted (pending Darren) |
+| 3 Nov 2026 | Drop the restriction to Western, English-speaking cohorts; contact all cohorts and see who responds first | Equity; Karen's approach allows diversity and the project should not be stuck on granularity | Adopted |
+| 3 Nov 2026 | Add a confidence rating to the custodian response form; send tailored, AI-assisted questionnaires with deadlines | Reduce custodian burden and capture uncertainty | Adopted |
+| 3 Nov 2026 | Add a second round: neuropsychologist or diverse expert panel sanity check | Quality control on custodian mappings | Planned |
+| 3 Nov 2026 | Offer co-authorship, data visibility and future-project involvement as incentives | Encourage custodian participation | Adopted |
 
 *Add new rows to the bottom of this table as decisions are made, keeping dates in chronological order.*
