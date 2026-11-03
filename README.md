@@ -133,12 +133,21 @@ Potential linking measures may then be classified as **high-confidence**, **tent
 cosmic_harmonisation/
 ├── README.md
 ├── documentation/
-│   └── harmonisation_decisions.Rmd
+│   ├── harmonisation_decisions.Rmd
+│   ├── COSMIC Harmonisation Strategy Overview.md
+│   ├── Blackmon harmonisation notes.md
+│   ├── Blackmon meeting agenda.md
+│   └── Susanne Meeting Handout.docx
+├── cohort_tracking/
+│   └── Cohort review.xlsx            (cohort review, data request tracker, data in hand)
+├── presentations/
+│   ├── COSMIC Harmonisation Webinar v2.pptx
+│   └── Alden Meeting Plan.pptx
 ├── delphi/
 │   ├── survey_materials/
 │   └── results/
 ├── data/
-│   └── cognitive_measure_inventory/
+│   └── cognitive_measure_inventory/   (curation schema draft: metadata only, no participant data)
 ├── scripts/
 │   ├── data_management/
 │   ├── cfa/
