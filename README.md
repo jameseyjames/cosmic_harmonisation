@@ -1,207 +1,98 @@
-# COSMIC Cognitive Harmonisation to HRS-HCAP
+# COSMIC cognitive harmonisation
 
-This repository contains code, documentation, and methodological materials for harmonising cognitive assessment data from participating **COSMIC** (Cohort Studies of Memory in an International Consortium) studies to the cognitive framework used by the **Harmonized Cognitive Assessment Protocol (HCAP)**.
+Methods, documentation and working files for putting cognitive test data from **COSMIC** cohorts (Cohort Studies of Memory in an International Consortium) on a common scale, using the **Harmonized Cognitive Assessment Protocol (HCAP)** as the reference framework.
 
-**Project home:** UNSW Sydney
+**Project home:** Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney
+**Status (15 Nov 2026):** item-level curation of six pilot cohorts is drafted; the expert questionnaire is built and about to be piloted. No statistical harmonisation has been run yet.
 
----
+> This repository holds metadata and methods only. It contains **no participant-level data**.
 
-## Table of Contents
+## The problem
 
-- [Project Aim](#project-aim)
-- [Harmonisation Strategy](#harmonisation-strategy)
-- [Conceptual and Statistical Harmonisation](#conceptual-and-statistical-harmonisation)
-- [Modified Delphi](#modified-delphi)
-- [Linking Measures](#linking-measures)
-- [Repository Structure](#repository-structure)
-- [Methodological Documentation](#methodological-documentation)
-- [Project Status](#project-status)
-- [Contact](#contact)
+COSMIC cohorts used different cognitive tests, in different languages, given and scored in different ways. Scores cannot be compared across cohorts until we know which tests measure the same thing and which are similar enough to link the cohorts together.
 
----
+## Approach
 
-## Project Aim
+We follow the method HCAP used to harmonise six national studies (Gross et al., 2023; Briceño et al., 2023), adapted for cohorts that did not share a protocol.
 
-COSMIC includes longitudinal ageing studies from multiple countries, but participating cohorts differ in the cognitive tests they administer. These differences make direct comparison of cognitive performance across studies challenging.
-
-This project aims to develop **harmonised cognitive scores** that allow cognitive performance to be compared across participating COSMIC cohorts, using **HRS-HCAP** as a reference framework.
-
-**Proposed HCAP cognitive domains:**
-
-| Domain |
-|---|
-| Orientation |
-| Memory |
-| Executive function |
-| Language / fluency |
-| Visuospatial function |
-
-Where supported by the available measures and statistical analyses, the project will generate:
-
-- Harmonised **domain-specific** cognitive scores
-- A harmonised **global cognition** score
-
-> Not every cohort is expected to contain sufficient information to estimate every cognitive domain.
-
----
-
-## Harmonisation Strategy
-
-The proposed workflow consists of five main stages:
-
-1. **Identify participating cohorts**
-   Determine which COSMIC cohorts will participate and compile an inventory of the cognitive assessments administered by each study.
-
-2. **Map cognitive measures to HCAP domains**
-   A modified Delphi study will be used to obtain expert consensus on which HCAP cognitive domains are assessed by each cognitive measure. Rather than assuming each test measures only one construct, experts will rate the extent to which each measure assesses *each* HCAP domain before nominating its primary domain.
-
-3. **Determine cognitive-domain coverage**
-   The resulting mappings will be combined with the cognitive-test inventory to determine which HCAP domains can be adequately represented within each cohort.
-
-4. **Construct harmonised domain scores**
-   The expert-derived measurement structure will be evaluated empirically using methods such as:
-   - Confirmatory factor analysis (CFA)
-   - Measurement invariance
-   - Differential item functioning (DIF)
-
-   Where the evidence supports cross-study comparability, harmonised domain scores will be constructed.
-
-5. **Construct global cognition**
-   For cohorts meeting prespecified minimum domain-coverage and statistical criteria, harmonised domain information will be combined to derive a global cognitive score.
-
-**Overall workflow:**
-
-```
-Cohort participation → Measure inventory → Delphi domain mapping → Domain coverage
-   → Statistical harmonisation → Domain scores → Global cognition
+```mermaid
+flowchart LR
+  A[1 Inventory<br>tests and items<br>per cohort] --> B[2 Item-level curation<br>HCAP layout and codes]
+  B --> C[3 Expert judgement<br>two raters, then<br>modified Delphi]
+  C --> D[4 Cohort check<br>is our description<br>of your test correct?]
+  D --> E[5 Linkage map<br>can the cohorts<br>be connected?]
+  E --> F[6 Co-calibration<br>factor / IRT models<br>with anchor items]
+  F --> G[7 Bias testing<br>and validation]
+  G --> H[8 Scale up<br>to more cohorts]
 ```
 
----
+Three principles run through all of it:
 
-## Conceptual and Statistical Harmonisation
+1. **The unit is the test as it was given in a particular cohort**, not the test's name. Language, materials, timing and scoring all matter.
+2. **What a test measures and whether it can link cohorts are separate questions.** Two memory tests can both measure memory and still be too different to link.
+3. **Expert judgement proposes; statistics test.** Experts classify links as confident, tentative or none. Tentative links are tested for bias before they are used.
 
-A central principle of this project is to separate **conceptual harmonisation** from **statistical harmonisation**.
+The full reasoning is in [`documentation/harmonisation_strategy.md`](documentation/harmonisation_strategy.md).
 
-Expert judgement is used to determine which mappings between cognitive measures and HCAP constructs are theoretically plausible. These hypotheses are then tested empirically.
+## Where things stand
 
-In particular, the project distinguishes between:
+| Stage | Status |
+|---|---|
+| 1. Inventory | Done for six pilot cohorts (variable names and labels only) |
+| 2. Item-level curation | Draft v0.2: 154 rows, 95 item codes, every source variable checked against the cohort files |
+| 3. Expert judgement | Questionnaire built in REDCap (18 test cards); protocol drafted; pilot run and panel invitations pending |
+| 4. Cohort check | Not started |
+| 5 to 8 | Not started |
 
-- *Does this test measure the same cognitive domain?*
-- *Is this test sufficiently comparable across studies to function as a linking indicator?*
+**Pilot cohorts:** MYHAT (USA), HELIAD (Greece), KLOSCAD (South Korea), MYNAH (India), SPAH (Brazil) and the Uganda study. They were chosen because their data are in hand and together they cover six regions.
 
-A cognitive measure may provide useful information about a domain without being sufficiently equivalent across studies to serve as a linking measure. Expert consensus therefore **informs** the statistical models rather than **determines** them.
+Decisions, their dates and what they replaced are recorded in [`Harmonisation Decision Log.Rmd`](Harmonisation%20Decision%20Log.Rmd).
 
----
+## What is in this repository
 
-## Modified Delphi
+| Path | Contents |
+|---|---|
+| `Harmonisation Decision Log.Rmd` | Dated record of every methodological decision, including strategies that were tried and dropped |
+| `documentation/harmonisation_strategy.md` | The current strategy and the evidence behind it |
+| `documentation/delphi_protocol.md` | Draft protocol for the modified Delphi: panel, questions, consensus rules |
+| `documentation/item_mapping_conventions.md` | How items are coded in the mapping workbook |
+| `documentation/archive/` | Superseded strategy documents and meeting notes, kept for the record |
+| `curation/COSMIC_Item_Mapping_Pilot_v0.2.xlsx` | Item-level mapping of the six pilot cohorts, in HCAP's layout |
+| `curation/build_item_mapping.py` | Script that generates the workbook; mapping decisions are edited here |
+| `delphi/cards.py` | The 18 test descriptions ("reference panels") and answer options: the single source for the questionnaire |
+| `delphi/build_redcap.py` | Generates the REDCap data dictionary and the preview page |
+| `delphi/COSMIC_Delphi_R1_REDCap_DataDictionary_v2.csv` | Import file for REDCap |
+| `delphi/rater_preview.html` | What a panel member sees (download and open in a browser) |
+| `cohort_tracking/Cohort review.xlsx` | Cohort review and data request tracker (last updated early Nov 2026) |
+| `presentations/` | Webinar and meeting slides |
 
-The Delphi panel will include experts with experience in:
+## Rebuilding the files
 
-- COSMIC
-- HCAP
-- Neuropsychological assessment
-- Cognitive ageing
-- Epidemiology
-- Cross-study cognitive harmonisation
-- Cognitive assessment across different countries and languages
+```bash
+pip install openpyxl
 
-**Process:**
+# Delphi questionnaire: REDCap dictionary + preview page
+python delphi/build_redcap.py
 
-- For each cognitive measure, experts initially rate its relationship with each HCAP domain and nominate a primary domain.
-- In subsequent rounds, participants receive anonymised summaries of the panel's responses and may reconsider their classifications.
-- A provisional criterion of **≥75% agreement** on the primary domain is being considered as the threshold for consensus.
-
-Measures without clear consensus will not necessarily be excluded, and may instead be treated as multidomain, examined in subsequent Delphi rounds, or evaluated through sensitivity analyses.
-
----
-
-## Linking Measures
-
-Measures that appear comparable across COSMIC cohorts and HCAP undergo additional assessment of their suitability as potential linking indicators, considering differences in:
-
-Administration • Instructions • Stimulus material • Number of items or trials • Timing • Recall vs. recognition • Scoring • Language and translation • Mode of administration • Cohort-specific adaptations
-
-Potential linking measures may then be classified as **high-confidence**, **tentative**, or **unsuitable** links prior to empirical evaluation.
-
----
-
-## Repository Structure
-
-> Provisional — will evolve as the project progresses.
-
-```
-cosmic_harmonisation/
-├── README.md
-├── documentation/
-│   ├── harmonisation_decisions.Rmd
-│   ├── COSMIC Harmonisation Strategy Overview.md
-│   ├── Blackmon harmonisation notes.md
-│   ├── Blackmon meeting agenda.md
-│   └── Susanne Meeting Handout.docx
-├── cohort_tracking/
-│   └── Cohort review.xlsx            (cohort review, data request tracker, data in hand)
-├── presentations/
-│   ├── COSMIC Harmonisation Webinar v2.pptx
-│   └── Alden Meeting Plan.pptx
-├── delphi/
-│   ├── survey_materials/
-│   └── results/
-├── data/
-│   └── cognitive_measure_inventory/   (curation schema draft: metadata only, no participant data)
-├── scripts/
-│   ├── data_management/
-│   ├── cfa/
-│   ├── measurement_invariance/
-│   └── scoring/
-└── outputs/
-    ├── tables/
-    └── figures/
+# Item-mapping workbook
+python curation/build_item_mapping.py
 ```
 
----
+The mapping script reads item labels and domains from the HCAP Prestatistical Harmonization Resource. That workbook was shared with the project by the HCAP team and is not public, so it is not in this repository. Place it at `private/HCAP_Prestatistical_Harmonization_Resource.xlsx` (the `private/` folder is git-ignored) or set the `HCAP_RESOURCE` environment variable.
 
-## Methodological Documentation
+To knit the decision log: open `Harmonisation Decision Log.Rmd` in RStudio and click **Knit** (needs `rmarkdown`).
 
-Detailed methodological decisions are documented separately in the project's R Markdown documentation, including:
+## Data governance
 
-- Delphi design and consensus criteria
-- HCAP domain definitions
-- Cognitive-test classifications
-- Cohort domain coverage
-- Linking-item decisions
-- Statistical harmonisation decisions
-- Criteria for constructing domain scores
-- Criteria for constructing global cognition
-- Outstanding methodological questions
-- A chronological decision log
+- No participant-level data is stored here, and none should be added. Cohort data stay in UNSW-approved storage under each cohort's data access agreement.
+- The mapping workbook records variable names and labels only.
+- Test content under copyright (word lists, story text, stimuli) is not reproduced anywhere in this repository.
 
-The intention is to maintain a transparent record of both **what** was decided and **why**, throughout the harmonisation process.
+## References
 
----
-
-## Project Status
-
-**Current stage:** Method development and cognitive measure mapping
-
-**Current priorities:**
-
-- [ ] Confirm participating COSMIC cohorts
-- [ ] Compile cognitive-test inventories
-- [ ] Finalise HCAP domain definitions
-- [ ] Finalise the modified Delphi protocol
-- [ ] Conduct Delphi Round 1
-- [ ] Establish cohort-by-domain coverage
-- [ ] Identify candidate linking measures
-- [ ] Develop the statistical harmonisation model
-- [ ] Generate harmonised domain scores
-- [ ] Evaluate construction of global cognition
-
----
+- Gross AL, Li C, Briceño EM, Arce Rentería M, et al. Harmonisation of later-life cognitive function across national contexts: results from the Harmonized Cognitive Assessment Protocols. *Lancet Healthy Longevity* 2023;4(10):e573–e583. doi:10.1016/S2666-7568(23)00170-8
+- Briceño EM, Arce Rentería M, Gross AL, Jones RN, et al. A cultural neuropsychological approach to harmonization of cognitive data across culturally and linguistically diverse older adult populations. *Neuropsychology* 2023;37(3):247–257. doi:10.1037/neu0000816
 
 ## Contact
 
-**James Lian, PhD**
-UNSW Sydney
-📧 [j.lian@unsw.edu.au](mailto:j.lian@unsw.edu.au)
-
-For questions regarding this repository or the COSMIC cognitive harmonisation project, please contact the project team.
+James Lian, PhD · CHeBA, UNSW Sydney · j.lian@unsw.edu.au
