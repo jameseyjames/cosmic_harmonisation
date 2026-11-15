@@ -10,6 +10,7 @@ data/raw/
 # Rendered output and local clutter
 *.html
 !delphi/rater_preview.html
+!delphi/preview_template.html
 __pycache__/
 .Rhistory
 .Rproj.user/
