@@ -1,0 +1,17 @@
+# Never commit participant-level data or third-party unpublished material
+private/
+data/raw/
+*.sav
+*.zsav
+*.dta
+*.sas7bdat
+*.rds
+*.RData
+# Rendered output and local clutter
+*.html
+!delphi/rater_preview.html
+__pycache__/
+.Rhistory
+.Rproj.user/
+.DS_Store
+~$*
