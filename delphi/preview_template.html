@@ -1,0 +1,104 @@
+<title>Delphi Rater Preview</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one test per page in a single reading column; reference panel sits directly above its questions, as it will in REDCap. */
+:root{--bg:#f6f8f9;--surface:#ffffff;--panel:#eaf0f3;--panel-line:#c2cfd7;--ref:#f8f1de;--ref-line:#dccb98;--fg:#16242d;--muted:#51636f;--line:#d5dde2;--accent:#0f5e73;--accent-fg:#ffffff;--warn:#8a5a00;--pick:#e3eef2;
+--sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10181d;--surface:#18232a;--panel:#1f2e37;--panel-line:#35495a;--ref:#2c2816;--ref-line:#5b5026;--fg:#e6edf1;--muted:#9db0bb;--line:#2c3b45;--accent:#6cc3d8;--accent-fg:#0b1a20;--warn:#e0b45a;--pick:#22353f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10181d;--surface:#18232a;--panel:#1f2e37;--panel-line:#35495a;--ref:#2c2816;--ref-line:#5b5026;--fg:#e6edf1;--muted:#9db0bb;--line:#2c3b45;--accent:#6cc3d8;--accent-fg:#0b1a20;--warn:#e0b45a;--pick:#22353f;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.5;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.notice{font-size:14px;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:10px 14px}
+.top{display:flex;flex-direction:column;gap:8px}
+.top h1{font-size:20px;font-weight:600;margin:0;text-wrap:balance}
+.prog{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}
+.page{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:22px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.panel h2{font-size:21px;font-weight:600;margin:0;text-wrap:balance}
+dl{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:8px 18px;margin:0}
+dt{font-weight:600;color:var(--muted);font-size:14px}dd{margin:0;min-width:0}
+dd.unconf{color:var(--warn)}dd.src{font-size:14px;color:var(--muted)}
+.ref{background:var(--ref);border:1px solid var(--ref-line);border-radius:6px;padding:14px 18px;display:flex;flex-direction:column;gap:4px}
+.ref strong{font-weight:600}
+fieldset{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+legend{font-weight:600;padding:0;margin-bottom:6px}.req{color:var(--warn)}.hint{font-weight:400;color:var(--muted);font-size:14px;display:block}
+.opts{display:flex;flex-direction:column;gap:4px}.opts.h{flex-direction:row;flex-wrap:wrap;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border:1px solid transparent;border-radius:6px;cursor:pointer}
+.opts.h .opt{border-color:var(--line)}
+.opt:hover{background:var(--pick)}.opt:has(input:checked){background:var(--pick);border-color:var(--accent)}
+.opt input{accent-color:var(--accent);margin-top:4px;flex:none}.opt:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.defs{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}details.defs{border-top:0;padding-top:0;margin-top:-12px}details.defs summary{cursor:pointer;color:var(--accent);font-weight:500}
+textarea,input[type=text],input[type=number]{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%;box-sizing:border-box}
+textarea{min-height:72px;resize:vertical}
+.nav{display:flex;justify-content:space-between;gap:12px}
+button{font:inherit;font-weight:500;padding:10px 20px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}button:disabled{opacity:.45;cursor:default}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.msg{color:var(--warn);font-size:14px;min-height:1.4em}
+@media (max-width:520px){dl{grid-template-columns:1fr;gap:2px 0}dt{margin-top:8px}.page{padding:16px}}
+</style>
+<div class="wrap">
+  <div class="notice">Preview of what a panel member will see in REDCap. Answers entered here are not saved or sent anywhere.</div>
+  <div class="top"><h1>COSMIC cognitive harmonisation: expert mapping questionnaire (pilot, Round 1)</h1>
+    <div class="prog"><span id="plabel"></span><div class="bar"><i id="pbar"></i></div></div></div>
+  <div class="page" id="page"></div>
+  <div class="msg" id="msg" role="status"></div>
+  <div class="nav"><button id="back" type="button">Back</button><button id="next" type="button" class="primary">Next</button></div>
+</div>
+<script>
+const DATA=/*DATA*/null;const N=DATA.cards.length;const ans={};let pg=0;const TOTAL=N+2;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const DOM=DATA.domains.map(d=>[d[0],d[1]]);
+const DEFS=DATA.domains.map(d=>`<b>${esc(d[1])}:</b> ${esc(d[2])}.`).join('<br>');
+function group(id,legend,opts,{multi=false,req=false,hint='',horiz=false,none=null,showIf=null}={}){
+  const cur=ans[id]??(multi?[]:null);
+  return `<fieldset data-none="${none??''}" ${showIf?`data-showif="${showIf}"`:''}><legend>${legend}${req?' <span class="req" title="required">*</span>':''}${hint?`<span class="hint">${hint}</span>`:''}</legend><div class="opts${horiz?' h':''}">`+
+   opts.map(([v,l])=>`<label class="opt"><input type="${multi?'checkbox':'radio'}" name="${id}" id="${id}_${v}" value="${v}" ${multi?(cur.includes(v)?'checked':''):(cur===v?'checked':'')}><span>${esc(l)}</span></label>`).join('')+`</div></fieldset>`;}
+function text(id,legend,{req=false,hint='',single=false,showIf=null}={}){const v=esc(ans[id]??'');
+  return `<fieldset ${showIf?`data-showif="${showIf}"`:''}><legend><label for="${id}">${legend}</label>${req?' <span class="req">*</span>':''}${hint?`<span class="hint">${hint}</span>`:''}</legend>`+(single?`<input type="text" id="${id}" value="${v}">`:`<textarea id="${id}">${v}</textarea>`)+`</fieldset>`;}
+function render(){const el=document.getElementById('page');let h='';
+  if(pg===0){h=`<div class="eyebrow">Before you start</div><div>${DATA.intro}</div>`+
+    group('consent','I have read the information above and agree to take part.',[[1,'Yes']],{req:true})+
+    text('panel_code','Your panellist code',{req:true,hint:'Sent to you by email. Please do not enter your name.',single:true})+
+    group('discipline','Your main discipline',["Clinical neuropsychology","Psychometrics / biostatistics","Epidemiology","Psychiatry, neurology or geriatric medicine","Speech and language pathology","Other"].map((l,i)=>[i+1,l]),{req:true})+
+    group('years_exp','Years working with cognitive assessment of older adults',["Less than 5","5 to 10","11 to 20","More than 20"].map((l,i)=>[i+1,l]),{req:true,horiz:true})+
+    text('settings_exp','Countries, languages or cultural settings in which you have direct experience of cognitive assessment',{hint:'Optional'})+
+    `<div class="defs"><strong>The six domains used in this questionnaire</strong><br>${DEFS}</div>`;}
+  else if(pg<=N){const c=DATA.cards[pg-1],p='c'+String(pg).padStart(2,'0');
+    h=`<div class="eyebrow">Test ${pg} of ${N}</div><div class="panel"><div class="eyebrow">Reference panel: the test you are judging</div><h2>${esc(c.test)}</h2><dl>`+
+      `<dt>Study</dt><dd>${esc(c.cohort)}, ${esc(c.place)}</dd><dt>Participants</dt><dd>${esc(c.people)}</dd><dt>Language</dt><dd>${esc(c.lang)}</dd><dt>What the participant does</dt><dd>${esc(c.task)}</dd>`+
+      `<dt>How it is given</dt><dd>${esc(c.admin)}</dd><dt>Format</dt><dd>${esc(c.fmt)}</dd><dt>Scoring</dt><dd>${esc(c.score)}</dd>`+(c.unconf?`<dt>Not yet confirmed</dt><dd class="unconf">${esc(c.unconf)}</dd>`:'')+
+      `<dt>Source</dt><dd class="src">${esc(c.src)}</dd></dl></div>`+
+      group(p+'_domain','Which cognitive domain does this version of the test <u>mainly</u> measure?',DOM.concat(DATA.extra),{req:true})+
+      `<details class="defs"><summary>Domain definitions</summary>${DEFS}</details>`+
+      text(p+'_domain_oth','Which domain?',{req:true,single:true,showIf:p+'_domain=8'})+
+      group(p+'_second','Does it also measure any other domain to a substantial degree?',DOM.concat([[0,'No other domain']]),{multi:true,req:true,hint:'Tick all that apply.',none:0})+
+      group(p+'_conf','How confident are you in your choice of main domain?',DATA.conf,{req:true,horiz:true})+
+      group(p+'_bias',"Apart from the ability being measured, is a person's score on this version likely to be noticeably affected by any of these?",DATA.bias,{multi:true,req:true,hint:'Tick all that apply. This tells us where to check for bias between studies.',none:0})+
+      c.refs.map((r,k)=>{const s=`${p}_link${k+1}`;return `<div class="ref"><div class="eyebrow">Comparison item</div><strong>${esc(r.name)}</strong><span>${esc(r.desc)}</span></div>`+
+        group(s,'Could the test in the reference panel be linked to this comparison item? In other words, would two people of the same ability be expected to get the same score on both?',DATA.link,{req:true})+
+        group(s+'_why','What differs?',DATA.reasons,{multi:true,hint:'Tick all that apply.',showIf:s+'=2|3'});}).join('')+
+      text(p+'_comment','Comments',{hint:'Optional. For example: what further information would change your answer?'});}
+  else{h=`<div class="eyebrow">About this questionnaire</div>`+text('fb_minutes','About how many minutes did this take you?',{req:true,single:true})+
+    text('fb_info','Did each reference panel give you enough information to judge? What was missing?')+text('fb_domains','Were the domains and their definitions adequate? Would you add, split or merge any?')+
+    text('fb_link','Was the question about linking to a comparison item clear? How would you reword it?')+text('fb_other','Any other comments');}
+  el.innerHTML=h;document.getElementById('plabel').textContent=`Page ${pg+1} of ${TOTAL}`;document.getElementById('pbar').style.width=((pg+1)/TOTAL*100)+'%';
+  document.getElementById('back').disabled=pg===0;document.getElementById('next').textContent=pg===TOTAL-1?'Finish preview':'Next';document.getElementById('msg').textContent='';branch();}
+function val(name){const r=document.querySelector(`#page input[name="${name}"]:checked`);return r?r.value:null;}
+function branch(){document.querySelectorAll('#page fieldset[data-showif]').forEach(fs=>{const [n,v]=fs.dataset.showif.split('=');fs.hidden=!v.split('|').includes(val(n));});}
+document.getElementById('page').addEventListener('change',e=>{const t=e.target;const fs=t.closest('fieldset');
+  if(t.type==='checkbox'&&fs.dataset.none!==''){const none=fs.dataset.none;if(t.value===none&&t.checked)fs.querySelectorAll('input').forEach(i=>{if(i!==t)i.checked=false;});else if(t.checked){const n=fs.querySelector(`input[value="${none}"]`);if(n)n.checked=false;}}
+  branch();});
+function collect(){document.querySelectorAll('#page fieldset').forEach(fs=>{const ins=fs.querySelectorAll('input[type=radio],input[type=checkbox]');
+  if(ins.length){const id=ins[0].name;if(ins[0].type==='checkbox')ans[id]=[...ins].filter(i=>i.checked).map(i=>+i.value);else{const c=[...ins].find(i=>i.checked);ans[id]=c?+c.value:null;}}
+  else{const t=fs.querySelector('textarea,input');if(t)ans[t.id]=t.value;}});}
+function missing(){return [...document.querySelectorAll('#page fieldset')].some(fs=>{if(fs.hidden||!fs.querySelector('.req'))return false;const r=fs.querySelectorAll('input[type=radio],input[type=checkbox]');
+  if(r.length)return ![...r].some(i=>i.checked);const t=fs.querySelector('textarea,input');return t&&!t.value.trim();});}
+document.getElementById('next').onclick=()=>{collect();if(missing()){document.getElementById('msg').textContent='Please answer the questions marked * before continuing.';return;}
+  if(pg<TOTAL-1){pg++;render();window.scrollTo(0,0);}else document.getElementById('msg').textContent='End of preview. In REDCap this is where the rater submits.';};
+document.getElementById('back').onclick=()=>{collect();if(pg>0){pg--;render();window.scrollTo(0,0);}};
+render();
+</script>
