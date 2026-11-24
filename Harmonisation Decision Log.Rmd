@@ -2,7 +2,7 @@
 title: "COSMIC Cognitive Harmonisation"
 subtitle: "Methodological decision log"
 author: "James Lian, CHeBA, UNSW Sydney"
-date: "Started 3 Sep 2026 · last updated 15 Nov 2026"
+date: "Started 3 Sep 2026 · last updated 24 Nov 2026"
 output:
   html_document:
     toc: true
@@ -47,7 +47,7 @@ td, th { vertical-align: top; }
 This is the dated record of how the COSMIC cognitive harmonisation project decided to do what it is doing: each decision, the reason for it, and what it replaced. It is updated whenever a decision is made or reversed.
 
 <div class="now">
-**Where we are (15 Nov 2026).** The method follows HCAP's published approach: item-level curation, expert judgement on domains and links, then statistical co-calibration with bias testing. Six pilot cohorts have been curated. The expert questionnaire is built in REDCap and is about to be piloted. Several rules for the Delphi are proposed and awaiting agreement.
+**Where we are (24 Nov 2026).** This stage is a feasibility study of a new approach. Five pilot cohorts (MYHAT, Sydney MAS, KLOSCAD, HELIAD, SPAH) have been selected against stated criteria and curated at item level. A two-round Delphi will classify each cohort's tests into the five HCAP domains; deciding which items link cohorts is a separate step. HRS-HCAP is the reference for the common scale. An ethics application, which will also cover a comparison of AI and expert classification, is planned before Christmas.
 </div>
 
 <p class="key">
@@ -64,7 +64,7 @@ Companion documents: `documentation/harmonisation_strategy.md` (the strategy and
 
 # How the strategy has changed
 
-The strategy changed five times between September and November 2026. Each change had a reason, and the current plan keeps something from every stage.
+The strategy changed several times between September and November 2026. Each change had a reason, and the current plan keeps something from every stage.
 
 <div class="timeline">
 
@@ -98,14 +98,30 @@ The strategy changed five times between September and November 2026. Each change
 <em>Kept:</em> inclusion of diverse cohorts from the start; cohorts checking our work. <em>Dropped on 4 Nov:</em> dependence on cohorts replying.
 </div>
 
-<div class="tl current">
-<span class="when">4 Nov 2026</span> · <span class="what">Current direction: expert-panel Delphi, cohort input optional</span><br>
+<div class="tl">
+<span class="when">4 Nov 2026</span> · <span class="what">Expert-panel Delphi, cohort input optional</span><br>
 <span class="why">Cohort response rates are falling and many older studies have no staff to reply. Decision: return to a Delphi with a panel as diverse as possible. Cohorts are asked to confirm, and silence is not a blocker. The "culturally similar or different" grouping was dropped, because differences belong to each cohort's version of a test, not to regions. Measures or cohorts that cannot be agreed are left out.</span>
 </div>
 
-<div class="tl current">
+<div class="tl">
 <span class="when">13 to 15 Nov 2026</span> · <span class="what">Method aligned with HCAP's published procedure</span><br>
-<span class="why">The questionnaire was rebuilt in REDCap and its link question changed to HCAP's three categories (confident, tentative, none), so decisions are comparable with HCAP's. A draft protocol proposes two-rater review of everything, with the Delphi panel reserved for the hard cases.</span>
+<span class="why">The questionnaire was rebuilt in REDCap and its link question changed to HCAP's three categories (confident, tentative, none), so decisions are comparable with HCAP's. A draft protocol proposed two-rater review of everything, with the Delphi panel reserved for the hard cases.</span><br>
+<em>Kept:</em> REDCap, one test per page with a reference panel. <em>Dropped on 24 Nov:</em> linking questions in the Delphi.
+</div>
+
+<div class="tl">
+<span class="when">19 Nov 2026</span> · <span class="what">Feasibility framing; cohort choice must be justified</span><br>
+<span class="why">The pilot is to be presented as a feasibility study of a new approach. The choice of cohorts needed an explicit rationale, with Europe and Oceania, different languages and good coverage of the HCAP domains. Which cohorts are included will not depend on whether their investigators join the panel. Every panellist will rate every test.</span>
+</div>
+
+<div class="tl current">
+<span class="when">23 Nov 2026</span> · <span class="what">Pilot cohorts selected against stated criteria</span><br>
+<span class="why">Purposive, maximum-variation selection. Eligible cohorts have item- or subtest-level data, cover at least four of the five HCAP domains, and share at least three candidate linking items. Selected: MYHAT (USA), Sydney MAS (Australia), KLOSCAD (South Korea), HELIAD (Greece) and SPAH (Brazil). MYNAH and Uganda move to the first expansion batch.</span>
+</div>
+
+<div class="tl current">
+<span class="when">24 Nov 2026</span> · <span class="what">Delphi narrowed to domain classification; HRS-HCAP as reference; AI comparison planned</span><br>
+<span class="why">Panel experts cannot judge linking unless they hold the data, so the Delphi asks only which HCAP domain each test measures, with confidence and any second domain, over two rounds without discussion. Linking is decided separately. HRS-HCAP sets the common scale. Comparing AI classification with the expert panel is planned as a contribution to the field, subject to ethics approval.</span>
 </div>
 
 </div>
@@ -119,21 +135,36 @@ The strategy changed five times between September and November 2026. Each change
 | Stage | What happens | Status |
 |:--|:--|:-:|
 | 1. Inventory | List cognitive variables in each cohort's files (names and labels only) | <span class="st done">Done for pilot</span> |
-| 2. Item-level curation | One row per item per cohort in HCAP's layout; proposed links flagged | <span class="st done">Draft v0.2</span> |
-| 3. Expert judgement | Two raters, then modified Delphi for hard cases | <span class="st proposed">In preparation</span> |
-| 4. Cohort check | Each cohort confirms our description of its tests | <span class="st open">Not started</span> |
+| 2. Item-level curation | One row per item per cohort in HCAP's layout; proposed links flagged | <span class="st done">Draft v0.3</span> |
+| 3. Delphi: domain classification | Panel assigns each test to an HCAP domain; two rounds | <span class="st proposed">In preparation</span> |
+| 4. Linking decisions and cohort check | Project team proposes links from HCAP precedents; cohorts confirm test descriptions | <span class="st open">Not started</span> |
 | 5. Linkage map | Check the cohorts can be connected, per domain | <span class="st open">Not started</span> |
 | 6. Co-calibration | Factor / IRT models with linking items held equal | <span class="st open">Not started</span> |
 | 7. Bias testing and validation | Targeted tests on tentative links | <span class="st open">Not started</span> |
 | 8. Scale up | Add cohorts in batches | <span class="st open">Not started</span> |
 
-**Pilot cohorts** (chosen 4 Nov 2026, all with data in hand): MYHAT (USA), HELIAD (Greece), KLOSCAD (South Korea), MYNAH (India), SPAH (Brazil), Uganda study.
+**Pilot cohorts** (selected 23 Nov 2026): MYHAT (USA), Sydney MAS (Australia), KLOSCAD (South Korea), HELIAD (Greece), SPAH (Brazil).
+
+**Selection criteria.** Purposive, maximum-variation sampling for a feasibility study.
+
+- *Eligibility:* item- or subtest-level data available to the project; at least four of the five HCAP domains covered, including memory; at least three candidate linking items with HRS-HCAP or another eligible cohort.
+- *Variation sought across the set:* continent; language and script; education and literacy; type of battery (full neuropsychological, CERAD, 10/66 screening).
+
+| Cohort | Country, language | Battery | What it tests |
+|:--|:--|:--|:--|
+| MYHAT | USA, English | Full neuropsychological | Closest to HRS-HCAP; the hub that links the others |
+| Sydney MAS | Australia, English | Full neuropsychological | Best case with MYHAT: same language, different continent |
+| KLOSCAD | South Korea, Korean | CERAD | Non-Latin script; standardised battery; bridge to Korea's HCAP study |
+| HELIAD | Greece, Greek | Full neuropsychological | Greek alphabet; many participants with little schooling |
+| SPAH | Brazil, Portuguese | 10/66 screening | Low literacy; screening-only battery typical of LMIC cohorts |
+
+*Limitations:* no African or South Asian cohort met the domain criterion (MYNAH and Uganda are in the first expansion batch); data access shaped eligibility; two cohorts are English-speaking; HELIAD and KLOSCAD link mainly through Trail Making and the MMSE total. MAS is included subject to data access; CLAS (China) is the substitute if access is delayed.
 
 ## Principles
 
 1. **The unit is the test as given in a particular cohort.** Language, materials, timing and scoring are part of the item.
 2. **Domain and linking are separate questions.** A test can measure memory and still be too different from another memory test to link cohorts.
-3. **Expert judgement proposes; statistics test.** Experts rate links as confident, tentative or none. Tentative links are tested for bias before use.
+3. **Experts classify; statistics test.** The Delphi panel assigns tests to domains. The project team proposes links (confident, tentative, none) from HCAP precedents, and tentative links are tested for bias before use.
 4. **Links between COSMIC cohorts count as much as links to HRS-HCAP.** A US study is a poor only reference for many cohorts.
 5. **Cohorts confirm; they are not a dependency.** No reply by the deadline means we proceed and mark the description unconfirmed.
 6. **Uncertainty is recorded.** Vote counts, confidence, unconfirmed details and unresolved items are all kept.
@@ -144,36 +175,37 @@ The strategy changed five times between September and November 2026. Each change
 
 - Layout and codes follow HCAP's pre-statistical resource. An item that looks equivalent to an HCAP item takes HCAP's code and is flagged as a proposed link. Other items take a COSMIC code (`c###`).
 - Linking confidence follows HCAP: 2 confident, 1 tentative, −1 the HCAP item is not in HRS-HCAP.
-- v0.2 (13 Nov 2026): 154 rows, 95 codes, 41 of them HCAP codes. 37 codes appear in two or more cohorts.
-- All source variables were checked against the cohort file headers. Four rows remain flagged: two inferred, one unidentified, one missing from its file.
+- v0.3 (23 Nov 2026): five pilot cohorts, 129 rows, 104 codes, 43 of them HCAP codes. 17 codes appear in two or more cohorts.
+- Source variables for MYHAT, KLOSCAD, HELIAD and SPAH were checked against the cohort file headers; three rows remain flagged. MAS rows are drafted from the published baseline battery (Sachdev et al., 2010) until its data dictionary is available.
 
-Workbook: `curation/COSMIC_Item_Mapping_Pilot_v0.2.xlsx`.
+Workbook: `curation/COSMIC_Item_Mapping_Pilot_v0.3.xlsx`.
 
 ## Expert judgement
 
-**Questions asked for each test version** (questionnaire v2, 15 Nov 2026):
+**Purpose of the Delphi** (agreed 24 Nov 2026): to agree which of the five HCAP domains each cohort's test measures. Linking is not asked of the panel, because experts cannot judge it without knowing the cohort's data.
 
-| # | Question | Feeds |
-|:-:|:--|:--|
-| 1 | Main cognitive domain | Which factor the item belongs to |
-| 2 | Other domains measured | Whether it is used for the global score only |
-| 3 | Confidence (1 to 5) | Weight given to borderline decisions |
-| 4 | What else might affect scores (schooling, translation, cultural familiarity, senses, setting) | Which bias tests to run |
-| 5 | Link to a comparison item: confident, tentative, none | Which items anchor the common scale |
-| 6 | Comments | Curation notes |
+**Questions asked for each test**
 
-**Domains offered:** orientation; memory; attention / processing speed; executive function; language; visuospatial / constructional. Each has a one-line definition shown on every page.
+| # | Question | Response | Feeds |
+|:-:|:--|:--|:--|
+| 1 | Which HCAP domain does this test mainly measure? | Orientation; memory; executive function / attention; language / fluency; visuospatial; cannot assign | Which domain factor the item loads on |
+| 2 | How confident are you? | 3-point scale | Weight given to borderline decisions |
+| 3 | Does it also measure a second domain? | One of the five domains, or none | Items measuring several domains are used for global cognition only |
 
-**Consensus rules** <span class="st proposed">Proposed</span>
+- A context section opens the questionnaire: HCAP, its five domains, and what the panel is for.
+- Panellists are asked not to use AI tools when answering.
+- Two rounds, no discussion. Round 2 shows each panellist the group's answers beside their own.
+- Every panellist rates every test.
 
-- 75% agreement on the main domain, and on the link category.
-- "Cannot judge" is counted separately. If 30% or more give it, the description is improved and the item is rated again.
-- Two rounds, three at most.
-- No domain consensus: the item is used for the global score only. No link consensus: the item is not an anchor.
+**Panel.** A diverse panel of neuropsychologists, psychometricians and people who know the cohorts. Investigators of the five pilot cohorts are invited through COSMIC; if they decline, the pilot proceeds without them. Project team members do not rate. Candidates are not listed here until they have been invited.
 
-**Panel** <span class="st proposed">Proposed</span>: invite about 15 to finish with at least 10, mixing clinical neuropsychologists, psychometricians and people who know the cohorts, with at least 40% from outside Australia, the UK and the US. Project team members do not rate. Candidates are not listed here until they have been invited.
+**Consensus rule** <span class="st proposed">Proposed</span>: 75% agreement on the main domain. Items without consensus after Round 2 are used for global cognition only.
 
-Full protocol: `documentation/delphi_protocol.md`.
+**Linking decisions** are made separately by the project team, using HCAP's precedents in the mapping workbook and the cohorts' confirmation of how tests were given.
+
+**AI comparison** <span class="st proposed">Proposed</span>: an approved AI tool classifies the same test descriptions, with the method fixed in advance, and its classifications are compared with the panel's consensus and with HCAP's existing classifications. Requires a new ethics application.
+
+Full protocol: `documentation/delphi_protocol.md` (to be revised to match these decisions).
 
 ## Statistical plan
 
@@ -184,7 +216,9 @@ Not yet started. The intended approach follows Gross et al. (2023):
 - Linking items are tested for bias; those with salient bias are demoted to non-linking.
 - A global cognition factor first <span class="st proposed">Proposed</span>, then domain factors where a cohort has enough linked items.
 
-Still to decide: the reference metric, the minimum number of links per cohort, software, and how cohorts with only total scores are handled.
+**Reference:** HRS-HCAP <span class="st decided">Decided</span> 24 Nov 2026. Its item parameters are fixed first and COSMIC cohorts are placed on its scale through shared items, so COSMIC scores can be compared with HCAP's published results.
+
+Still to decide: the minimum number of links per cohort, software, and how cohorts with only total scores are handled.
 
 ---
 
@@ -213,20 +247,38 @@ Dates marked "approx." come from notes made after the event and should be correc
 | 4 Nov 2026 | Stop grouping cohorts as culturally similar or different | Differences belong to each cohort's version of a test, not to regions | <span class="st decided">Decided</span> |
 | 4 Nov 2026 | Leave out any cohort or measure that cannot be agreed | Keeps the linked scores defensible | <span class="st decided">Decided</span> |
 | 4 Nov 2026 | Pilot the questionnaire with one neuropsychologist before the panel sees it | Find problems with wording and burden early | <span class="st decided">Decided</span> |
-| 4 Nov 2026 | Pilot cohorts: MYHAT, HELIAD, KLOSCAD, MYNAH, SPAH, Uganda | Data in hand; six regions; mix of item-level and test-level data | <span class="st decided">Decided</span> |
+| 4 Nov 2026 | Pilot cohorts: MYHAT, HELIAD, KLOSCAD, MYNAH, SPAH, Uganda | Data in hand; six regions; mix of item-level and test-level data | <span class="st superseded">Superseded</span> 23 Nov |
 | 4 Nov 2026 | The unit of rating is the test as given in a particular cohort | Follows from the cohort-specific point above | <span class="st decided">Decided</span> |
 | 4 Nov 2026 | Mapping conventions: reuse HCAP codes for proposed links; primary scores only for test-level cohorts; recodes in a second pass | Consistency with HCAP; keep the first pass manageable | <span class="st decided">Decided</span> |
 | 4 Nov 2026 | Item mapping v0.1 built | First curated draft of the six cohorts | <span class="st done">Done</span> |
 | 13 Nov 2026 | Item mapping v0.2: every source variable re-checked against cohort files; four errors corrected | Accuracy before expert review | <span class="st done">Done</span> |
 | 13 Nov 2026 | Draft list of panel candidates and gaps | Needed to judge diversity before inviting anyone | <span class="st done">Done</span> (not yet agreed) |
 | 15 Nov 2026 | Run the questionnaire in REDCap, one test per page with a reference panel | A first draft in Microsoft Forms was hard to use; raters need the test description beside the questions; REDCap is the standard research tool | <span class="st decided">Decided</span> |
-| 15 Nov 2026 | Link question uses HCAP's categories: confident, tentative, none | Makes our decisions directly comparable with HCAP's | <span class="st proposed">Proposed</span> |
-| 15 Nov 2026 | Comparison items can be another COSMIC cohort's version, not only HRS-HCAP | Links between COSMIC cohorts matter as much | <span class="st proposed">Proposed</span> |
-| 15 Nov 2026 | Memory is one domain; immediate, delayed and recognition are recorded as facts, not judged | They describe the task, not an opinion about it | <span class="st proposed">Proposed</span> |
-| 15 Nov 2026 | Primary domain plus optional other domains, replacing 1 to 5 ratings on every domain | Same information for the model at much lower burden | <span class="st proposed">Proposed</span> |
-| 15 Nov 2026 | Ask what else might affect scores | Makes later bias testing targeted | <span class="st proposed">Proposed</span> |
-| 15 Nov 2026 | Two raters review everything; the Delphi panel sees only disagreements, new tests and adapted versions | About 120 test versions in six cohorts is too many for a panel, and it grows with each cohort | <span class="st proposed">Proposed</span> |
-| 15 Nov 2026 | Draft Delphi protocol written | Fix the rules before Round 1 | <span class="st proposed">Proposed</span> |
+| 15 Nov 2026 | Link question uses HCAP's categories: confident, tentative, none | Makes our decisions directly comparable with HCAP's | <span class="st superseded">Superseded</span> 24 Nov (linking removed from the Delphi) |
+| 15 Nov 2026 | Comparison items can be another COSMIC cohort's version, not only HRS-HCAP | Links between COSMIC cohorts matter as much | <span class="st superseded">Superseded</span> 24 Nov (linking removed from the Delphi) |
+| 15 Nov 2026 | Memory is one domain; immediate, delayed and recognition are recorded as facts, not judged | They describe the task, not an opinion about it | <span class="st decided">Decided</span> 24 Nov (five HCAP domains) |
+| 15 Nov 2026 | Primary domain plus optional other domains, replacing 1 to 5 ratings on every domain | Same information for the model at much lower burden | <span class="st decided">Decided</span> 24 Nov |
+| 15 Nov 2026 | Ask what else might affect scores | Makes later bias testing targeted | <span class="st superseded">Superseded</span> 24 Nov (not asked of the panel) |
+| 15 Nov 2026 | Two raters review everything; the Delphi panel sees only disagreements, new tests and adapted versions | About 120 test versions in six cohorts is too many for a panel, and it grows with each cohort | <span class="st superseded">Superseded</span> 19 Nov (every panellist rates every test) |
+| 15 Nov 2026 | Draft Delphi protocol written | Fix the rules before Round 1 | <span class="st done">Done</span>; to be revised after 24 Nov |
+| 17 Nov 2026 | Reduce the pilot to five cohorts by dropping HELIAD | Fewest links and most unresolved questions | <span class="st superseded">Superseded</span> 23 Nov |
+| 19 Nov 2026 | Treat the current stage as a feasibility study of a new approach | Sets realistic claims for the pilot | <span class="st decided">Decided</span> |
+| 19 Nov 2026 | Justify the choice of pilot cohorts explicitly; seek Europe and Oceania, different languages and good coverage of the five HCAP domains | The first selection rested mainly on data being in hand | <span class="st decided">Decided</span> |
+| 19 Nov 2026 | Invite the investigators of the pilot cohorts through COSMIC; inclusion does not depend on their joining | Keeps selection independent of who responds | <span class="st decided">Decided</span> |
+| 19 Nov 2026 | Every panellist rates every test | Gives several ratings per test for measuring agreement | <span class="st decided">Decided</span> |
+| 19 Nov 2026 | Add a context section to the questionnaire on HCAP, its domains and the aim | Panellists need the framework to answer consistently | <span class="st decided">Decided</span> |
+| 19 Nov 2026 | Run an expert panel rather than a formal Delphi, to avoid needing ethics approval | Lower burden | <span class="st superseded">Superseded</span> 24 Nov (ethics to be sought) |
+| 23 Nov 2026 | Selection criteria: purposive, maximum-variation sampling; eligibility = data at item or subtest level, at least four of five HCAP domains, at least three candidate linking items | A stated, defensible rationale for a feasibility study | <span class="st decided">Decided</span> |
+| 23 Nov 2026 | Pilot cohorts: MYHAT, Sydney MAS, KLOSCAD, HELIAD, SPAH. MYNAH and Uganda move to the first expansion batch. CLAS substitutes for MAS if access is delayed | Five continents, four languages, two non-Latin scripts, a low-literacy setting, three battery types, connected by shared items | <span class="st decided">Decided</span> (MAS subject to data access) |
+| 23 Nov 2026 | Item mapping v0.3 built for the five cohorts; MAS drafted from its published battery | Curation follows the new selection | <span class="st done">Done</span> |
+| 24 Nov 2026 | HRS-HCAP is the reference cohort for the common scale | Makes COSMIC scores comparable with HCAP's published results | <span class="st decided">Decided</span> |
+| 24 Nov 2026 | The Delphi classifies tests into the five HCAP domains only; linking confidence is not asked of the panel | Experts cannot judge linking without knowing the cohort's data | <span class="st decided">Decided</span> |
+| 24 Nov 2026 | Questions: main HCAP domain (five options plus cannot assign); confidence on a 3-point scale; second domain | Keeps the task clear and quick | <span class="st decided">Decided</span> |
+| 24 Nov 2026 | Two rounds, no discussion | Standard Delphi; avoids group pressure | <span class="st decided">Decided</span> |
+| 24 Nov 2026 | Linking decisions stay separate from the Delphi | Linking needs knowledge of each cohort's data and HCAP precedent | <span class="st decided">Decided</span> |
+| 24 Nov 2026 | Compare AI classification with the expert Delphi as a contribution to the field; panellists asked not to use AI; an approved AI tool used | Tests whether classification can be scaled to many cohorts | <span class="st proposed">Proposed</span> |
+| 24 Nov 2026 | Submit a new ethics application covering the Delphi and the AI comparison before Christmas | Required for both | <span class="st decided">Decided</span> |
+| 24 Nov 2026 | Seek advice from the Head of School, Computer Science, on AI tools for harmonisation and on the statistical stage | Expertise outside the team | <span class="st decided">Decided</span> |
 
 ---
 
@@ -234,17 +286,18 @@ Dates marked "approx." come from notes made after the event and should be correc
 
 **Before Round 1 of the Delphi**
 
-- Agree the consensus rules and the number of rounds.
-- Agree the two-rater triage.
-- Confirm the panel: size, composition, and whether pilot-cohort leads rate or only confirm.
-- Ethics: confirm whether an expert Delphi needs approval or an exemption at UNSW.
+- Agree the consensus threshold (proposed 75%).
+- Confirm the panel's size and composition.
+- Submit the ethics application before Christmas.
+- Fix the AI comparison method: tool, prompt and number of runs.
 - What panellists are offered (authorship or acknowledgement).
 - Whether to register the protocol before Round 1.
+- MAS data access; otherwise substitute CLAS.
 
 **Before modelling**
 
 - First target score: global cognition (proposed) or domains.
-- Reference metric: HRS-HCAP or a COSMIC cohort.
+- Obtain HRS-HCAP data, and ask the HCAP team whether its item parameters can be shared.
 - Minimum number of links for a cohort to be placed on the common scale.
 - How cohorts with only total scores are handled.
 - Bias-testing thresholds (proposed: those in Gross et al., 2023).
@@ -276,6 +329,14 @@ Kept for the record. None of these is current.
 - Purpose: a proof of concept with less language and cultural confounding.
 
 *Dropped on 3 Nov 2026.* MYHAT remains in the current pilot. MAS and PATH will be added when data access is approved.
+
+## Questionnaire v2 (15 Nov 2026)
+
+- Six domains (attention / processing speed separate from executive function), with definitions.
+- Questions: main domain; other domains; confidence 1 to 5; what else might affect scores; link to one or more comparison items (confident, tentative, none) and what differs.
+- Two raters to review everything, with the panel for hard cases.
+
+*Replaced on 24 Nov 2026* by domain classification only, using the five HCAP domains.
 
 ## Custodian-led mapping (3 Nov 2026)
 

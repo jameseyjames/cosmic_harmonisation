@@ -3,7 +3,7 @@
 Methods, documentation and working files for putting cognitive test data from **COSMIC** cohorts (Cohort Studies of Memory in an International Consortium) on a common scale, using the **Harmonized Cognitive Assessment Protocol (HCAP)** as the reference framework.
 
 **Project home:** Centre for Healthy Brain Ageing (CHeBA), UNSW Sydney
-**Status (15 Nov 2026):** item-level curation of six pilot cohorts is drafted; the expert questionnaire is built and about to be piloted. No statistical harmonisation has been run yet.
+**Status (24 Nov 2026):** a feasibility study. Five pilot cohorts are selected and curated at item level; a Delphi to classify their tests into the five HCAP domains is being finalised, with an ethics application planned. No statistical harmonisation has been run yet.
 
 > This repository holds metadata and methods only. It contains **no participant-level data**.
 
@@ -38,13 +38,13 @@ The full reasoning is in [`documentation/harmonisation_strategy.md`](documentati
 
 | Stage | Status |
 |---|---|
-| 1. Inventory | Done for six pilot cohorts (variable names and labels only) |
-| 2. Item-level curation | Draft v0.2: 154 rows, 95 item codes, every source variable checked against the cohort files |
-| 3. Expert judgement | Questionnaire built in REDCap (18 test cards); protocol drafted; pilot run and panel invitations pending |
+| 1. Inventory | Done for the pilot cohorts (variable names and labels only) |
+| 2. Item-level curation | Draft v0.3: 129 rows, 104 item codes; MAS drafted from its published battery until its data arrive |
+| 3. Delphi: domain classification | Two-round Delphi agreed 24 Nov; REDCap questionnaire being revised to match; ethics application planned |
 | 4. Cohort check | Not started |
 | 5 to 8 | Not started |
 
-**Pilot cohorts:** MYHAT (USA), HELIAD (Greece), KLOSCAD (South Korea), MYNAH (India), SPAH (Brazil) and the Uganda study. They were chosen because their data are in hand and together they cover six regions.
+**Pilot cohorts:** MYHAT (USA), Sydney MAS (Australia), KLOSCAD (South Korea), HELIAD (Greece) and SPAH (Brazil), selected on 23 Nov 2026 by purposive, maximum-variation sampling. The criteria are in the decision log.
 
 Decisions, their dates and what they replaced are recorded in [`Harmonisation Decision Log.Rmd`](Harmonisation%20Decision%20Log.Rmd).
 
@@ -57,7 +57,7 @@ Decisions, their dates and what they replaced are recorded in [`Harmonisation De
 | `documentation/delphi_protocol.md` | Draft protocol for the modified Delphi: panel, questions, consensus rules |
 | `documentation/item_mapping_conventions.md` | How items are coded in the mapping workbook |
 | `documentation/archive/` | Superseded strategy documents and meeting notes, kept for the record |
-| `curation/COSMIC_Item_Mapping_Pilot_v0.2.xlsx` | Item-level mapping of the six pilot cohorts, in HCAP's layout |
+| `curation/COSMIC_Item_Mapping_Pilot_v0.3.xlsx` | Item-level mapping of the five pilot cohorts, in HCAP's layout |
 | `curation/build_item_mapping.py` | Script that generates the workbook; mapping decisions are edited here |
 | `delphi/cards.py` | The 18 test descriptions ("reference panels") and answer options: the single source for the questionnaire |
 | `delphi/build_redcap.py` | Generates the REDCap data dictionary and the preview page |

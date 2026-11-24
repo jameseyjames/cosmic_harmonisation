@@ -16,7 +16,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 import os, sys
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HCAP=os.environ.get('HCAP_RESOURCE',os.path.join(ROOT,'private','HCAP_Prestatistical_Harmonization_Resource.xlsx'))
-OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(ROOT,'curation','COSMIC_Item_Mapping_Pilot_v0.2.xlsx')
+OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(ROOT,'curation','COSMIC_Item_Mapping_Pilot_v0.3.xlsx')
 wb0=openpyxl.load_workbook(HCAP,data_only=True)
 rows=list(wb0['Items'].iter_rows(values_only=True)); h=rows[0]
 hc=collections.defaultdict(lambda:{'lab':collections.Counter(),'dom':collections.Counter(),'studies':set()})
@@ -39,7 +39,6 @@ def hstud(u):
 # COSMIC-new code registry: code -> (label, domain, subdomain)
 NEW={
  'c120':('Orientation – two streets near home (CSI-D)','Orientation','Orientation_place'),
- 'c121':('Orientation – who lives next door (CSI-D, India variant)','Orientation','Orientation_place'),
  'c240':('CSI-D 3-word immediate recall (CSI-D word set)','Memory','Memory_episodic_immediate'),
  'c241':('CSI-D 3-word delayed recall (CSI-D word set)','Memory','Memory_episodic_delayed'),
  'c242':('CSI-D short story recall','Memory','Memory_episodic_immediate'),
@@ -52,6 +51,10 @@ NEW={
  'c254':('Face-Name Associative Memory – total recall (3 trials)','Memory','Memory_episodic_immediate'),
  'c255':('WMS-R Visual Reproduction – immediate','Memory','Memory_episodic_immediate'),
  'c256':('WMS-R Visual Reproduction – delayed','Memory','Memory_episodic_delayed'),
+ 'c257':('Rey Auditory Verbal Learning Test – trials 1–5 total','Memory','Memory_episodic_immediate'),
+ 'c258':('Rey Auditory Verbal Learning Test – short-delay recall (trial 6)','Memory','Memory_episodic_delayed'),
+ 'c259':('Rey Auditory Verbal Learning Test – long-delay recall (trial 7)','Memory','Memory_episodic_delayed'),
+ 'c267':('Benton Visual Retention Test – recognition','Memory','Memory_recognition'),
  'c260':('Greek Verbal Learning Test – trials 1–5 total','Memory','Memory_episodic_immediate'),
  'c261':('Greek Verbal Learning Test – short-delay free recall','Memory','Memory_episodic_delayed'),
  'c262':('Greek Verbal Learning Test – long-delay free recall','Memory','Memory_episodic_delayed'),
@@ -65,6 +68,7 @@ NEW={
  'c342':('Anomalous sentence repetition – correct','Executive','(not specified)'),
  'c420':('Months forward – time','Attention_speed','(not specified)'),
  'c421':('Months backward – time','Attention','(not specified)'),
+ 'c422':('Digit Symbol-Coding (WAIS-III)','Attention_speed','(not specified)'),
  'c530':('Letter fluency – P (60 s)','Language_fluency','(not specified)'),
  'c531':('Letter fluency – S (60 s)','Language_fluency','(not specified)'),
  'c532':('Letter fluency – Greek alpha (60 s)','Language_fluency','(not specified)'),
@@ -82,6 +86,8 @@ NEW={
  'c544':('CSI-D comprehension – nod head','Language_fluency','(not specified)'),
  'c545':('CSI-D definition – what is done in a place of worship','Language_fluency','(not specified)'),
  'c546':('CSI-D definition – where medicines are bought','Language_fluency','(not specified)'),
+ 'c547':('Boston Naming Test – 30-item form','Language_fluency','(not specified)'),
+ 'c548':('Letter fluency – F, A, S total (COWAT)','Language_fluency','(not specified)'),
  'c620':('Clock drawing – 15-point scoring (MYHAT)','Visuospatial','(not specified)'),
  'c621':('Clock drawing – free draw (HELIAD scoring)','Visuospatial','(not specified)'),
  'c622':('Clock drawing – copy (HELIAD scoring)','Visuospatial','(not specified)'),
@@ -91,6 +97,7 @@ NEW={
  'c626':('Benton Visual Form Discrimination','Visuospatial','(not specified)'),
  'c627':('MCG Complex Figure – copy','Visuospatial','(not specified)'),
  'c628':('Judgement of Line Orientation – 10-item abbreviated','Visuospatial','(not specified)'),
+ 'c629':('Block Design – WAIS-R','Visuospatial','(not specified)'),
  'c901':('MMSE total score (version-specific)','(not specified)','(not specified)'),
 }
 def lab(code): return hlab(code) if code.startswith('u') else NEW[code][0]
@@ -195,58 +202,67 @@ add('c341',S,F,'K4FrontalAssessmentBatteryscore','0 18','FAB – multi-component
 add('c623',S,F,'K5_1sumofCLOX1','0 15','CLOX1 free-drawn clock (executive-weighted).',None,A,sim='u603 c620 c621',waves=W,level='Subtest')
 add('c624',S,F,'K5_2sumofCLOX2','0 15','CLOX2 copied clock.',None,A,sim='c622',waves=W,level='Subtest')
 
-# ---------------- CSI-D cohorts: MYNAH & SPAH ----------------
-for S,F,A,W,fu in [('MYNAH','MYNAH.sav','India (Mysore); 10/66 DRG protocol; CSI-D + CERAD 10-word list read aloud; local-language administration (language to confirm)','Cross-sectional',False),
-                   ('SPAH','CSI-D.sav','Brazil (São Paulo); 10/66 DRG protocol; Brazilian Portuguese; CSI-D + CERAD 10-word list read aloud','Baseline + 2-year follow-up (follow-up variables prefixed f)',True)]:
+# ---------------- MAS (Sydney Memory and Ageing Study) ----------------
+# No data file yet: rows are drafted from the published baseline battery and must be checked against the data dictionary.
+F='No data file yet – battery from Sachdev et al. 2010, Int Psychogeriatr 22(8):1248–64, Table 1'; S='MAS'
+W='Wave 1 2005–07; face-to-face every 2 years; telephone TICS in between'
+A='Australian English; face-to-face assessment by trained research psychologists in one or two sessions; participants had to speak and write English'
+N='NO DATA YET – awaiting data access'
+add('c901',S,F,N,'0 30','Standard MMSE; adjusted score <24 excluded at entry. If item scores are held, they give direct anchors with MYHAT and SPAH.',None,A,waves=W,level='Total')
+add('u401',S,F,N,'time (s)','Standard Trail Making A in English, as HRS-HCAP. Check the time cap and how incompletes are scored.',2,A,waves=W,level='Subtest')
+add('u303',S,F,N,'time (s)','Standard Trail Making B in English. MAS classes it as executive, as HCAP does. Check the time cap.',2,A,waves=W,level='Subtest')
+add('c422',S,F,N,'0 133','WAIS-III Digit Symbol-Coding: the participant writes the symbol for each digit. HRS-HCAP SDMT (u402) is the reverse: the participant writes the digit for each symbol. Similar demands, different format – link to be decided by the panel.',None,A,sim='u402',waves=W,level='Subtest')
+add('u207',S,F,N,'0 25','WMS-III Logical Memory Story A (the Anna Thompson story), delayed recall. HCAP already gives this story the same code as HRS-HCAP Logical Memory (HAALSI-HCAP, u207), and MYHAT used the same story (WMS-R). Scoring criteria differ between WMS editions, so tentative.',1,A,waves=W,level='Subtest')
+add('c257',S,F,N,'0 75','RAVLT: 15 words, 5 learning trials. Different list and length from CERAD (10 words, 3 trials), Fuld and the Greek VLT, so no direct anchor.',None,A,sim='u201 u202 c260',waves=W,level='Subtest')
+add('c258',S,F,N,'0 15','Recall after the interference list (trial 6).',None,A,sim='c261',waves=W,level='Subtest')
+add('c259',S,F,N,'0 15','Delayed recall (trial 7).',None,A,sim='u210 u211 c262',waves=W,level='Subtest')
+add('c267',S,F,N,'TBC','Benton Visual Retention Test, multiple-choice recognition. Visual memory; no counterpart in the other pilot cohorts.',None,A,sim='c266',waves=W,level='Subtest')
+add('c547',S,F,N,'0 30','Boston Naming Test, 30-item form (Kaplan et al. 2001). MYHAT scored all 60 items separately, so if MAS item scores are held the shared items can link at item level. Compare the 15-item forms in KLOSCAD (c535) and HELIAD (c536).',None,A,sim='u715 c534 c535 c536',waves=W,level='Subtest')
+add('u501',S,F,N,'0 max','Animals, 60 s, English, as HRS-HCAP. Links MAS directly to MYHAT, KLOSCAD and SPAH.',2,A,waves=W,level='Subtest')
+add('c629',S,F,N,'0 51','WAIS-R Block Design; MYHAT used WAIS-III (c625). The editions share some designs but differ in items and scoring – link to be decided by the panel.',None,A,sim='c625',waves=W,level='Subtest')
+add('c548',S,F,N,'0 max','Controlled Oral Word Association Test: letters F, A and S, 60 s each. MAS classes it as executive; HCAP precedent (HAALSI phonemic fluency, u714) is language, so the domain is contested. If letters are scored separately, S could link to MYHAT letter S (c531).',None,A,sim='u714 c530 c531 c532',waves=W,level='Subtest')
+add('u502',S,F,N,'0 1','TICS by telephone between face-to-face waves (the paper cites de Jager et al. 2003, i.e. TICS-m). Check whether item scores are held. Telephone administration – DIF candidate.',1,A,waves='Telephone waves only')
+add('u504',S,F,N,'0 1','As u502.',1,A,waves='Telephone waves only')
+add('u701',S,F,N,'0 1','As u502. Presumably asks for the prime minister, as ELSA-HCAP does – confirm.',1,A,waves='Telephone waves only')
+
+# ---------------- SPAH (10/66 protocol) ----------------
+# MYNAH (India) used the same protocol; it moved to the first expansion batch on 23 Nov 2026, and its rows can be restored from v0.2.
+for S,F,A,W,fu in [('SPAH','CSI-D.sav','Brazil (São Paulo); 10/66 DRG protocol; Brazilian Portuguese; CSI-D + CERAD 10-word list read aloud','Baseline + 2-year follow-up (follow-up variables prefixed f)',True)]:
     def fu_(v): return v+(' | FU: '+' '.join('f'+x for x in v.split()) if fu else '')
     add('u202',S,F,fu_('learn1 learn2 learn3'),'0 30','10/66 CERAD list read ALOUD by interviewer (not visual) – matches the HCAP verbal-presentation code u202 (LASI-DAD, HAALSI, MexCog, ChileCog), not HRS-HCAP u201.',-1,A,code2='sum_source',coding='Total also supplied as immed.',waves=W,level='Subtest')
     add('u211',S,F,fu_('recall'),'0 10','Verbal-presentation CERAD delayed recall.',-1,A,waves=W,level='Subtest')
     add('u501',S,F,fu_('animals'),'0 max','Animals, 60 s, translated.',1,A,waves=W,level='Subtest')
     add('u506',S,F,fu_('pencil'),'0 1','Real object shown (CSI-D).',1,A,waves=W)
     add('u505',S,F,fu_('watch'),'0 1','',1,A,waves=W)
-    add('c540',S,F,fu_('cogchair' if S=='MYNAH' else 'chair'),'0 1','',None,A,waves=W)
+    add('c540',S,F,fu_('chair'),'0 1','',None,A,waves=W)
     add('c541',S,F,fu_('shoes'),'0 1','',None,A,waves=W)
     add('c542',S,F,fu_('knuckle'),'0 1','',None,A,waves=W)
     add('u508',S,F,fu_('elbow'),'0 1','HRS-HCAP took this item from the CSI-D (10/66) – HCAP rates confident across all its studies.',2,A,waves=W)
-    add('c543',S,F,fu_('shoulder' if S=='MYNAH' else 'should'),'0 1','',None,A,waves=W)
+    add('c543',S,F,fu_('should'),'0 1','',None,A,waves=W)
     add('u516',S,F,fu_('bridge'),'0 1','HCAP u516 exists in MexCog/ChileCog only; note ChileCog specifies bridge type.',-1,A,waves=W)
     add('u515',S,F,fu_('hammer'),'0 1','Acceptable answers differ by language (HCAP note).',1,A,waves=W)
     add('c545',S,F,fu_('pray'),'0 1','"What do you do in a church/temple?" Religious-context item; DIF candidate across faith settings.',None,A,waves=W)
-    add('c546',S,F,fu_('chemist'),'0 1','"Where do you buy medicine?"'+(' MYNAH also holds a duplicate raw variable chemis.' if S=='MYNAH' else ''),None,A,waves=W)
+    add('c546',S,F,fu_('chemist'),'0 1','"Where do you buy medicine?"',None,A,waves=W)
     add('u513',S,F,fu_('repeat'),'0 1','Translated phrase – HCAP rates repetition tentative across languages.',1,A,waves=W)
     add('c544',S,F,fu_('nod'),'0 1','',None,A,waves=W)
-    add('u517',S,F,fu_('point'),'0 1','10/66 wording is "point to ceiling then to floor", NOT window then door (HRS-HCAP, Uganda). HCAP precedent: MexCog/ChileCog use sky/floor and still share u517. Two-step pointing command; DIF candidate.',1,A,waves=W)
+    add('u517',S,F,fu_('point'),'0 1','10/66 wording is "point to ceiling then to floor", NOT window then door (HRS-HCAP). HCAP precedent: MexCog/ChileCog use sky/floor and still share u517. Two-step pointing command; DIF candidate.',1,A,waves=W)
     add('u523',S,F,fu_('paper'),'0 3','CSI-D paper-folding command; check scoring matches MMSE 3-step.',1,A,waves=W)
     add('c243',S,F,fu_('nrecall'),'0 1',"Recall of interviewer's name.",None,A,waves=W)
-    add('c240',S,F,fu_('wordimm'),'0 3','CSI-D 3-word set (shared with Uganda brief CSI-D) – differs from MMSE words, so not u258.',None,A,sim='u258',waves=W)
-    add('c241',S,F,fu_('worddel'),'0 3','Shared word set with Uganda – strong within-COSMIC anchor (SPAH–MYNAH–Uganda).',None,A,sim='u209',waves=W)
+    add('c240',S,F,fu_('wordimm'),'0 3','CSI-D 3-word set – differs from MMSE words, so not u258. Other CSI-D cohorts (MYNAH, Uganda) use the same set, so this will link them when they are added.',None,A,sim='u258',waves=W)
+    add('c241',S,F,fu_('worddel'),'0 3','CSI-D 3-word delayed recall. A strong link to other CSI-D cohorts (MYNAH, Uganda) when they are added.',None,A,sim='u209',waves=W)
     add('c242',S,F,fu_('story'),'TBC','CSI-D story recall – confirm immediate vs delayed and scoring range.',None,A,sim='u203 u205',waves=W)
-    add('u115',S,F,fu_('city' if S=='MYNAH' else 'town'),'0 1','Name of this city/town (MYNAH variable is city; SPAH is town).',1,A,waves=W)
+    add('u115',S,F,fu_('town'),'0 1','Name of town.',1,A,waves=W)
     add('u701',S,F,fu_('chief'),'0 1','Local/national political leader (not necessarily president) – tentative link to TICS "name president".',1,A,waves=W)
     add('c120',S,F,fu_('street'),'0 1','',None,A,waves=W)
     add('u518',S,F,fu_('store'),'0 1','HRS-HCAP took this item from the CSI-D (1066 "local market").',1,A,waves=W)
-    if S=='SPAH':
-        add('u118',S,F,fu_('address'),'0 1','Own address – HCAP notes HRS requires street number AND name; scoring may differ.',1,A,waves=W)
-    else:
-        add('c121',S,F,'address','0 1','MYNAH label = "who lives next door" – NOT an address item; do not link to u118.',None,A,sim='u118',waves=W)
-    add('c244',S,F,fu_('longmem' if S=='MYNAH' else 'longmen'),'0 1','Content of item 27 to confirm.',None,A,waves=W)
+    add('u118',S,F,fu_('address'),'0 1','Own address – HCAP notes HRS requires street number AND name; scoring may differ.',1,A,waves=W)
+    add('c244',S,F,fu_('longmen'),'0 1','Content of item 27 to confirm.',None,A,waves=W)
     add('u106',S,F,fu_('month'),'0 1','',2,A,waves=W)
     add('u108',S,F,fu_('day'),'0 1','',2,A,waves=W)
     add('u107',S,F,fu_('year'),'0 1','',2,A,waves=W)
-    add('u116',S,F,fu_('season'),'0 1','Season is ambiguous in tropical/sub-tropical settings (wet/dry vs four seasons) – DIF candidate.',1,A,waves=W)
+    add('u116',S,F,fu_('season'),'0 1','São Paulo is subtropical, where seasons are less distinct – DIF candidate.',1,A,waves=W)
     add('u605',S,F,fu_('circle'),'0 1','Circle copy – HCAP code exists for ChileCog only.',-1,A,waves=W)
     add('u602',S,F,fu_('pentag'),'0 1','Intersecting pentagons as in MMSE.',1,A,waves=W)
-
-# ---------------- UGANDA ----------------
-F='Uganda study data file (.xls) and coding sheet (.docx)'; S='UGANDA'; W='Cross-sectional'
-A='Uganda (MADRI prevalence study); Brief CSI-D – 7 cognitive items, max 9; local-language administration (language to confirm)'
-add('u508',S,F,'NOT IN FILE – no elbow column in the .xls (item is in the coding sheet and counted in TOTALSCORE)','0 1','Same CSI-D item as HRS-HCAP u508. Item-level variable missing from the supplied file: request from the study team, or derive as TOTALSCORE minus the 8 other item scores if all are present.',2,A,waves=W)
-add('u515',S,F,'USEHAMMER','0 1','Acceptable answer: to drive a nail into something.',1,A,waves=W)
-add('u518',S,F,'MARKET','0 1','',1,A,waves=W)
-add('u108',S,F,'DAYWEEK','0 1','',2,A,waves=W)
-add('u116',S,F,'SEASON','0 1','Equatorial seasons (wet/dry) – DIF candidate.',1,A,waves=W)
-add('u517',S,F,'POINTWINDOW','0 1','Window→door (as HRS-HCAP 1066 item).',2,A,waves=W)
-add('c241',S,F,'BOAT HOUSE FISH','0 3','CSI-D 3-word set – same as SPAH/MYNAH c241.',None,A,code2='sum_source',sim='u209',waves=W)
 
 # ---------- write workbook ----------
 out=openpyxl.Workbook()
@@ -267,22 +283,23 @@ def sheet(ws,headers,data,widths):
 # ReadMe
 rm=out.active; rm.title='ReadMe'
 txt=[
-('COSMIC Item-Level Cognitive Mapping – pilot cohorts (v0.2, 13 Nov 2026)',True),
-('Purpose: pre-statistical harmonisation of cognitive items for six COSMIC pilot cohorts – MYHAT (USA), HELIAD (Greece), KLOSCAD (Korea), MYNAH (India), SPAH (Brazil), Uganda (MADRI) – following the HCAP Prestatistical Harmonization Resource (Jones et al.).',False),
+('COSMIC Item-Level Cognitive Mapping – pilot cohorts (v0.3, 23 Nov 2026)',True),
+('Purpose: pre-statistical harmonisation of cognitive items for five COSMIC pilot cohorts – MYHAT (USA), MAS (Australia), KLOSCAD (South Korea), HELIAD (Greece) and SPAH (Brazil) – following the HCAP Prestatistical Harmonization Resource (Jones et al.).',False),
+('Pilot cohorts revised 23 Nov 2026: Sydney MAS added; MYNAH and Uganda moved to the first expansion batch. MAS rows are drafted from the published baseline battery (Sachdev et al., 2010) and will be checked against the MAS data dictionary when access is approved.',False),
 ('',False),
 ('How this sheet follows the HCAP curation system',True),
 ('• Items tab mirrors HCAP\'s Items tab columns (item, item_label, study, domain, subdomain, curator, source_file, source_item, code1, code2, possible_range, coding_notes, notes_comparability, Linking Confidence, similar_items) plus COSMIC columns at the right.',False),
 ('• Item codes: where a COSMIC item appears equivalent to an HCAP item, the HCAP u-code is REUSED. Same code = proposed anchor (HCAP convention). All such links are flagged "Proposed anchor – for Delphi" and are untested assumptions.',False),
-('• COSMIC-new items use c### codes. The first digit follows HCAP: 1 orientation, 2 memory, 3 executive, 4 attention/speed, 5 language/fluency, 6 visuospatial; 9 = global/total. Two cohorts sharing a c-code is a proposed within-COSMIC anchor (e.g. c241 CSI-D 3-word recall in SPAH, MYNAH, Uganda).',False),
+('• COSMIC-new items use c### codes. The first digit follows HCAP: 1 orientation, 2 memory, 3 executive, 4 attention/speed, 5 language/fluency, 6 visuospatial; 9 = global/total. Two cohorts sharing a c-code is a proposed within-COSMIC anchor (e.g. c901, the MMSE total, in MYHAT, MAS, KLOSCAD and HELIAD).',False),
 ('• Domains/subdomains use HCAP\'s Domains_and_subdomains list. For reused u-codes the HCAP domain is inherited unchanged (even where contested – see notes); for c-codes the domain is a COSMIC a-priori proposal for the Delphi.',False),
 ('• Linking Confidence to HRS-HCAP: 2 = confident, 1 = tentative, −1 = HCAP item not in HRS-HCAP (link is to another HCAP study – see "HCAP studies with this code"); blank = COSMIC-new item.',False),
 ('• code2 "sum_source" = analytic variable is the sum of the listed source items (HCAP convention). code1 recodes and missing-value codes are deliberately left for a second pass.',False),
 ('• No copyrighted item content (word lists, story text) is recorded – HCAP rule.',False),
 ('',False),
 ('Scope decisions (agreed 4 Nov 2026)',True),
-('• Primary scores only for test-level cohorts (HELIAD, KLOSCAD): process scores (intrusions, perseverations, clustering), cohort z-scores and derived domain scores are listed on the Excluded tab.',False),
-('• Item level used where the data allow (MYHAT, MYNAH, SPAH, Uganda); test totals elsewhere. Level column records which.',False),
-('• Source variables were identified from variable names/labels in the cohort files held by COSMIC; no data values were used. On 13 Nov 2026 every source variable was re-checked against the file headers (see the Source verified column and the Changelog tab). Entries marked TBC / INFERRED / NOT IN FILE still need the study team.',False),
+('• Primary scores only for test-level cohorts (KLOSCAD, HELIAD, and MAS until its data are seen): process scores (intrusions, perseverations, clustering), cohort z-scores and derived domain scores are listed on the Excluded tab.',False),
+('• Item level used where the data allow (MYHAT, SPAH); test totals elsewhere. Level column records which.',False),
+('• Source variables were identified from variable names/labels in the cohort files held by COSMIC; no data values were used. On 13 Nov 2026 every source variable was re-checked against the file headers (see the Source verified column and the Changelog tab). Entries marked TBC / INFERRED still need the study team. MAS entries are marked NO DATA YET.',False),
 ('',False),
 ('Tabs',True),
 ('Changelog – what changed between versions. Items – one row per analytic variable per study. Coverage – code × cohort matrix (the linkage map). Code_registry – every code, its label and which cohorts carry it. Studies, Domains_and_subdomains – as HCAP. Excluded – variables reviewed but not mapped. Open_questions – items to resolve before the Delphi.',False),
@@ -295,7 +312,7 @@ rm.column_dimensions['A'].width=140
 # Items
 cols=['item','item_label','study','domain','subdomain','curator','source_file','source_item','source_labels','code1','code2','possible_range','coding_notes','notes_comparability',
       'Linking Confidence to HRS-HCAP (2=confident; 1=tentative; -1 NOT IN HRSHCAP)','similar_items','original_question_text',
-      'HCAP studies with this code','Link status','Administration / language notes','Waves','Level (Item/Subtest/Total)','Delphi priority','Source verified (13 Nov 2026)']
+      'HCAP studies with this code','Link status','Administration / language notes','Waves','Level (Item/Subtest/Total)','Delphi priority','Source verified']
 def prio(r):
     t=(r['notes_comparability']+r['item_label']).lower()
     if any(k in t for k in ['contested','delphi item','dif candidate','adaptation','not animals','not an address']): return 'High'
@@ -303,6 +320,7 @@ def prio(r):
     return 'Low'
 def ver(r):
     s=r['source_item']
+    if s.startswith('NO DATA YET'): return 'Not yet – no data file (from cohort paper)'
     if 'NOT IN FILE' in s: return 'No – variable not in file'
     if s.startswith('TBC'): return 'No – variable not identified'
     if 'INFERRED' in r['notes_comparability']: return 'Variable exists; meaning inferred'
@@ -312,7 +330,7 @@ DIG={'Orientation':'1','Memory':'2','Executive':'3','Attention':'4','Attention_s
 for c,(l,d,sd) in NEW.items(): assert c[1]==DIG[d],(c,d)
 for r in R:
     if r['item'].startswith('u'): assert r['item'] in hc and hc[r['item']]['lab'],r['item']
-order={'MYHAT':0,'HELIAD':1,'KLOSCAD':2,'MYNAH':3,'SPAH':4,'UGANDA':5}
+order={'MYHAT':0,'MAS':1,'KLOSCAD':2,'HELIAD':3,'SPAH':4}
 R.sort(key=lambda r:(order[r['study']],r['item']))
 data=[[r['item'],r['item_label'],r['study'],r['domain'],r['subdomain'],r['curator'],r['source_file'],r['source_item'],'', '',r['code2'],r['possible_range'],r['coding_notes'],r['notes_comparability'],
        r['conf'],r['similar_items'],'',r['hcap_studies'],r['status'],r['admin'],r['waves'],r['level'],prio(r),ver(r)] for r in R]
@@ -325,7 +343,7 @@ for row in ws.iter_rows(min_row=2):
     if row[0].value.startswith('u'): row[0].font=Font(bold=True,color='1F4E78')
 
 # Coverage
-studies=['MYHAT','HELIAD','KLOSCAD','MYNAH','SPAH','UGANDA']
+studies=['MYHAT','MAS','KLOSCAD','HELIAD','SPAH']
 codes=sorted({r['item'] for r in R},key=lambda c:(c[1],c))
 cov=out.create_sheet('Coverage')
 hdr=['item','item_label','domain','HCAP code?','HRS-HCAP conf (max)']+studies+['n cohorts']
@@ -338,7 +356,7 @@ for c in codes:
         hit=[r for r in rr if r['study']==s]
         line.append(('✓' if hit[0]['level']=='Item' else '◐') if hit else '')
     line.append(len({r['study'] for r in rr})); rowsC.append(line)
-sheet(cov,hdr,rowsC,[8,48,18,12,10]+[10]*6+[10])
+sheet(cov,hdr,rowsC,[8,48,18,12,10]+[10]*len(studies)+[10])
 for row in cov.iter_rows(min_row=2):
     n=row[-1].value
     row[-1].fill=PatternFill('solid',fgColor='C6EFCE' if n>=3 else ('FFE699' if n==2 else 'FFFFFF'))
@@ -357,10 +375,9 @@ st=out.create_sheet('Studies')
 sheet(st,['study','Title','Country','Battery / instruments mapped','Level of data','Files used','Notes'],[
  ['MYHAT','Monongahela-Youghiogheny Healthy Aging Team','USA','MMSE (items), WMS-R Logical Memory (lines), Fuld OME, Face-Name, WMS-R Visual Reproduction, TMT A/B, Digit span forward, animal + P/S fluency, Boston Naming, IU Token Test, Block Design, Benton VFD, clock (15-pt), RMET','Item','COSMIC_CogHarmo_MYHAT.csv; MYHAT_CogHarmonization_DataDictionary.xlsx','Supplied for cognitive harmonisation'],
  ['HELIAD','Hellenic Longitudinal Investigation of Aging and Diet','Greece','MMSE total, Greek VLT, MCG Complex Figure, JLO, TMT A/B, semantic (objects) + phonemic (alpha) fluency, naming, repetition, comprehension, anomalous sentences, months F/B, clock','Subtest/total','HELIAD A_total_GBD.sav; HELIAD B_total_GBD.sav','Supplied for GBD project; protocol HELIAD_protocol_eng.doc in folder. ALBION (same group/battery) is a candidate addition.'],
+ ['MAS','Sydney Memory and Ageing Study','Australia','MMSE, Digit Symbol-Coding, TMT A/B, WMS-III Logical Memory Story A, RAVLT, Benton Visual Retention (recognition), BNT-30, animal and F-A-S fluency, Block Design (WAIS-R); TICS by telephone between waves; NART and Grooved Pegboard not mapped','Not yet known','None yet – battery from Sachdev et al. 2010, Int Psychogeriatr 22(8):1248–64','Data access pending. CHeBA cohort; participants aged 70–90 at entry, English-speaking.'],
  ['KLOSCAD','Korean Longitudinal Study on Cognitive Aging and Dementia','South Korea','CERAD-K (MMSE-KC, fluency, BNT-15, word list, praxis, TMT A/B), digit span, FAB, CLOX','Subtest/total','KLOSCAD GBD.sav','LOSHAK (Korean HCAP) is the regional HCAP bridge'],
- ['MYNAH','MYsore studies of Natal effects on Ageing and Health','India','10/66 CSI-D cognitive items + CERAD 10-word list + animals + story','Item','MYNAH.sav','LASI-DAD is the regional HCAP bridge'],
- ['SPAH','São Paulo Ageing & Health Study','Brazil','10/66 CSI-D cognitive items + CERAD 10-word list + animals + story','Item','CSI-D.sav','Same protocol as MYNAH; MexCog/ChileCog are regional HCAP bridges'],
- ['UGANDA','MADRI prevalence study','Uganda','Brief CSI-D (7 items, max 9) + informant section','Item','Study data file (.xls); coding sheet (.docx)','HAALSI/KLPS are the regional HCAP bridges'],
+ ['SPAH','São Paulo Ageing & Health Study','Brazil','10/66 CSI-D cognitive items + CERAD 10-word list + animals + story','Item','CSI-D.sav','MexCog/ChileCog are regional HCAP bridges. MYNAH (India) used the same protocol and is in the first expansion batch.'],
 ],[10,40,12,60,12,40,40])
 
 # Domains
@@ -383,9 +400,9 @@ sheet(ex,['study','variables','reason'],[
  ['KLOSCAD','*_Zscore; K3F/K3B z-scores; secondary/tertiary BNT totals','Derived scores'],
  ['KLOSCAD','K1SevereCognitiveImpairmentRatingScale_SCIRSscore','Severe-impairment scale administered selectively – not a population indicator'],
  ['KLOSCAD','CDR SumofboxesofCDR DAD*','Clinical/functional ratings'],
- ['MYNAH / SPAH','cogscore immed orientti orientsp objname mem langexpr langcomp language orientat dfscore cogcase dfcase imp* infmem* relscore trialno name(registration) and informant items','CSI-D derived subscales, algorithm outputs, informant interview'],
- ['MYNAH','cdrjudge cdrorient cdrmem; Z* and *group5 variables','Clinical rating / derived'],
- ['UGANDA','TOTALSCORE PROBABLEDEMENTIA POSSIBLEDEMENTIA NORMAL INFORMANTTOTALSCORE and informant items','Derived totals / informant interview'],
+ ['SPAH','cogscore immed orientti orientsp objname mem langexpr langcomp language orientat dfscore cogcase dfcase imp* infmem* relscore trialno name(registration) and informant items','CSI-D derived subscales, algorithm outputs, informant interview'],
+ ['MAS','National Adult Reading Test (NART)','Estimate of premorbid ability, not a current cognitive domain – keep as a covariate'],
+ ['MAS','Grooved Pegboard','Fine motor speed, outside HCAP domains'],
 ],[14,80,60])
 
 # Open questions
@@ -399,11 +416,15 @@ sheet(oq,['#','study','question','why it matters','owner'],[
  [6,'HELIAD','Confirm list-learning variable meanings (ll6–ll10, lld1, lltd1, llts1, llta1). The protocol file supplied covers only the clinical interview, so this needs the HELIAD team.','c261–c263','HELIAD team'],
  [7,'HELIAD','Can item-level MMSE be supplied?','Would add ~20 HCAP anchors for Greece',''],
  [8,'HELIAD','Score ranges for repetition and comprehension; where are the Graphical Sequence, Motor Programming (go/no-go) and Vocabulary tests? They are in the published battery but not in the files supplied.','c537–c538; missing executive tests',''],
- [9,'MYNAH','Administration language(s); content of the "longmem" item','c244',''],
- [10,'SPAH / MYNAH','Is CSI-D story recall immediate or delayed, and its range?','c242 subdomain',''],
- [11,'UGANDA','The elbow item has no column in the .xls (9-point total includes it). Can the study team supply it? Administration language?','u508','Study team'],
- [12,'All','Season item in tropical/equatorial sites – keep or drop as anchor?','u116 DIF',''],
- [13,'All','Should ALBION (same battery as HELIAD) be added?','More Greek data; same codes',''],
+ [9,'SPAH','Is CSI-D story recall immediate or delayed, and its range?','c242 subdomain',''],
+ [10,'SPAH','Season item in a subtropical site – keep as an anchor?','u116 DIF',''],
+ [11,'MAS','Is the MMSE held at item level?','Would add about 20 HCAP anchors and direct links with MYHAT and SPAH','MAS team'],
+ [12,'MAS','Was Logical Memory immediate recall also recorded? The paper reports delayed recall only.','u203','MAS team'],
+ [13,'MAS','Which 30 Boston Naming items were used, and are item scores held?','Item-level link to MYHAT (60 items scored separately)','MAS team'],
+ [14,'MAS','Are the F, A and S fluency scores held separately?','Letter S could link to MYHAT','MAS team'],
+ [15,'MAS','Which TICS version was used by telephone, and are item scores held?','u502, u504, u701','MAS team'],
+ [16,'MAS','Which tests were added or dropped in later waves?','The paper describes wave 1 only','MAS team'],
+ [17,'All','Should ALBION (same battery as HELIAD) be added?','More Greek data; same codes',''],
 ],[5,16,70,40,12])
 
 cl=out.create_sheet('Changelog')
@@ -417,6 +438,10 @@ sheet(cl,['version','date','change'],[
  ['v0.2','13 Nov 2026','UPDATE MYHAT u203/u207: HRS-HCAP story confirmed as WMS-IV Story B; remaining question is equivalence with WMS-R Story A.'],
  ['v0.2','13 Nov 2026','UPDATE HELIAD from the published battery description: GVLT structure, BNT-15 (BDAE short form), JLO 10-item primary score (source changed to jlo1stdiades), repetition/comprehension sources, HELIAD own domain assignments noted where they differ from HCAP.'],
  ['v0.2','13 Nov 2026','UPDATE CERAD and TMT notes with HRS-HCAP administration details from the HRS 2016 HCAP protocol summary.'],
+ ['v0.3','23 Nov 2026','Pilot cohorts revised: MYNAH and Uganda removed (moved to the first expansion batch); Sydney MAS added.'],
+ ['v0.3','23 Nov 2026','ADD MAS: 16 rows drafted from the published baseline battery (Sachdev et al. 2010); marked NO DATA YET until the data dictionary is available.'],
+ ['v0.3','23 Nov 2026','ADD codes c257–c259 (RAVLT), c267 (Benton recognition), c422 (Digit Symbol-Coding), c547 (BNT-30), c548 (F-A-S fluency), c629 (Block Design WAIS-R). REMOVE c121 (MYNAH only).'],
+ ['v0.3','23 Nov 2026','UPDATE SPAH notes that referred to MYNAH and Uganda.'],
 ],[8,14,120])
 out._sheets=[out[n] for n in ['ReadMe','Items','Coverage','Code_registry','Studies','Domains_and_subdomains','Excluded','Open_questions','Changelog']]
 out.save(OUT)
